@@ -1,6 +1,7 @@
 {
   "homepage": "http://Shayzig/github.io/netflix-clone",
   "name": "netflix-clone",
+  "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
