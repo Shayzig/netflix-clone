@@ -3,12 +3,12 @@ import { getFirestore } from 'firebase/firestore';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_APP_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_APP_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_APP_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_APP_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_APP_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_APP_FIREBASE_APP_ID,
+    apiKey: "AIzaSyAC8YI9MU_HcdGA6mAX93PJykLxMtaCD1U",
+    authDomain: "netflix-clone-307b4.firebaseapp.com",
+    projectId: "netflix-clone-307b4",
+    storageBucket: "netflix-clone-307b4.appspot.com",
+    messagingSenderId: "443721028538",
+    appId: "1:443721028538:web:d5a0a754b834b269e04383"
 };
 
 const firebaseApp = initializeApp(firebaseConfig);

@@ -28,14 +28,13 @@ function App() {
 
   return (
     <div className="app">
-      <h1 style={{ color: "white" }}>hello{import.meta.env.VITE_CHECK} </h1>
       <Router>
         {!user ? (
           <Login />
         ) : (
           <Routes>
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/" element={<HomeScreen />} />
+            <Route path="netflix-clone" element={<HomeScreen />} />
+            <Route path="netflix-clone/profile" element={<Profile />} />
           </Routes>
         )}
       </Router>
