@@ -5,9 +5,9 @@ import { RiThumbUpFill, RiThumbDownFill } from "react-icons/ri";
 import { BiChevronDown } from "react-icons/bi";
 import { BsCheck } from "react-icons/bs";
 import { moviesService } from "../services/moviesService";
-import MovieTrailer from "./MovieTrailer";
 import { MuteIcon, VolumeHighIcon } from "@vidstack/react/icons";
 import { useSelector } from "react-redux";
+import Player from "./Player";
 
 const Card = memo(
   ({
@@ -30,18 +30,20 @@ const Card = memo(
 
     async function loadMovieTrailer(time = 5000) {
       setTimeout(async () => {
-        const fetchedMovieTrailer = await moviesService.getMovieTrailer(
-          movie.name || movie.title
-        );
-        setMovieTrailer(fetchedMovieTrailer);
+        // const fetchedMovieTrailer = await moviesService.getMovieTrailer(
+        //   movie.name || movie.title
+        // );
+
+        // setMovieTrailer(fetchedMovieTrailer);
         // setIsEndTrailer(false);
+        setMovieTrailer("youtube/_cMxraX_5RE"); //for dev
       }, time);
     }
 
     useEffect(() => {
       if (isHoverd) {
-        console.log("for dev");
-        // loadMovieTrailer(2000);
+        // console.log("for dev");
+        loadMovieTrailer(2000);
       }
     }, [isHoverd]);
 
@@ -97,7 +99,7 @@ const Card = memo(
 
     function handleMouseOut(value) {
       OnSetIsHoverd(value);
-      setIsHoverd(value);
+      setIsHoverd(false);
       setMovieTrailer(value);
     }
 
@@ -129,17 +131,13 @@ const Card = memo(
         <div className={`hover ${isHoverd ? "show" : ""}`}>
           <div className="image-video-container">
             {!movieTrailer && (
-              <img
-                src={`${baseUrl + movie.backdrop_path}`}
-                alt="card"
-                onClick={() => console.log(movie.title)}
-              />
+              <img src={`${baseUrl + movie.backdrop_path}`} alt="card" />
             )}
             {movieTrailer && (
               <>
-                <MovieTrailer
-                  isMuted={isMuted}
+                <Player
                   movieTrailer={movieTrailer}
+                  isMuted={isMuted}
                   onEndedTrailer={onEndedTrailer}
                 />
                 <div className="trailer-btns">

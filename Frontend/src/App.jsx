@@ -1,11 +1,10 @@
 import "./assets/scss/global.scss";
 import "./assets/scss/basics/_typography.scss";
-import "@vidstack/react/player/styles/default/theme.css";
 import HomeScreen from "./pages/HomeScreen";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import { onAuthStateChanged, auth } from "./firebase.js";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   loginUser,
   logoutUser,

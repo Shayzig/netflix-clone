@@ -1,0 +1,10 @@
+.player {
+  color: #f5f5f5;
+  contain: layout;
+  font-family: sans-serif;
+  overflow: hidden;
+}
+
+.player[data-focus]:not([data-playing]) {
+  box-shadow: var(--media-focus-ring);
+}

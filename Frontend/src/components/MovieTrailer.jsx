@@ -1,30 +1,34 @@
 import React, { useEffect, useState } from "react";
 import { MediaPlayer, MediaProvider } from "@vidstack/react";
+import { useMediaRemote } from "@vidstack/react";
 
 const MovieTrailer = ({ movieTrailer, onEndedTrailer, isMuted = true }) => {
-  const [isAutoPlay, setisAutoPlay] = useState(false);
+  // const remote = useMediaRemote();
+  // remote.setTarget(eventTarget);
+
+  // const [isAutoPlay, setisAutoPlay] = useState(true);
+  // const isMobile = window.innerWidth <= 767;
+  // remote.lockScreenOrientation("landscape", isMobile);
 
   useEffect(() => {
-    setisAutoPlay(true);
+    // setisAutoPlay(true);
   }, []);
 
   if (!movieTrailer) {
-    return (
-    <h2>loading</h2>
-    );
+    return <h2>loading</h2>;
   } else {
     return (
       <div className="video">
         <MediaPlayer
-          key={movieTrailer} 
+          playsinline
+          // key={movieTrailer}
           src={movieTrailer}
-          autoplay={isAutoPlay}
-          controls={false}
+          autoplay
           aspectRatio="16/9"
           muted={isMuted}
           onEnded={() => onEndedTrailer(null)}
         >
-          <MediaProvider/>
+          <MediaProvider />
         </MediaPlayer>
       </div>
     );

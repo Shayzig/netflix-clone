@@ -78,9 +78,10 @@ export async function getMoviesByGenre(moviesGenre) {
 export async function getMovieTrailer(movieName) {
     try {
         if (cache[movieName + 'Trailer']) {
-            console.log('return from cachh ', movieName + ' ' + 'Trailer')
-            return cache[movieName + 'Trailer']
+            console.log('return from cache ', movieName + ' ' + 'Trailer');
+            return cache[movieName + 'Trailer'];
         }
+
         const apiKey = "AIzaSyDTuJQgjSCqqzQnk7cdZOHrPi8nZqqBTHs";
         const response = await axios.get(
             `https://www.googleapis.com/youtube/v3/search?q=${encodeURIComponent(
@@ -89,15 +90,13 @@ export async function getMovieTrailer(movieName) {
         );
 
         const videoId = response.data.items[0]?.id.videoId || "No trailer found";
+        const link = `https://www.youtube.com/watch?v=${videoId}&fs=0`;
 
-        const link = `https://www.youtube.com/watch?v=${videoId}`
-
-        cache[movieName + 'Trailer'] = link
-        return link
+        cache[movieName + 'Trailer'] = link;
+        return link;
     } catch (error) {
         console.error("Error fetching trailer:", error);
     }
-
 }
 
 export async function getMovies(filterBy) {
