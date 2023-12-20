@@ -10,7 +10,7 @@ const Row = memo(
     fetchUrl = "",
     filterdMovies = null,
     mobileFilter,
-    mobileMode = false,
+    OnSetIsHoverd,
   }) => {
     const [sliderPosition, setSliderPosition] = useState(0);
     const [movies, setMovies] = useState(null);
@@ -112,7 +112,7 @@ const Row = memo(
                   index={index}
                   movie={movie}
                   mobileFilter={mobileFilter}
-                  mobileMode={mobileMode}
+                  OnSetIsHoverd={OnSetIsHoverd}
                 />
               ))}
             </div>

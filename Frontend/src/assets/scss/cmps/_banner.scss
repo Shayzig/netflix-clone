@@ -9,15 +9,26 @@
         display: flex;
         justify-content: center;
 
-        img {
+        .banner-img {
+            position: relative;
+            @include center;
             width: 90%;
-            height: 560px;
-            object-fit: cover;
-            background-repeat: no-repeat;
+            background: linear-gradient(to bottom, #ff7f5f00, #e7e4e24f); /* Change colors as needed */
             border-radius: 1vh;
-            border: 1px solid rgba(211, 211, 211, 0.069);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.211);
+            height: 562px;
+
+            img {
+                position: relative;
+                width: 99.5%;
+                height: 560px;
+                object-fit: cover;
+                background-repeat: no-repeat;
+                border-radius: 1vh;
+                z-index: 0;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.211);
+            }
         }
+
         .video {
             width: 100%;
 

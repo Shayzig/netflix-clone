@@ -10,7 +10,13 @@ import { MuteIcon, VolumeHighIcon } from "@vidstack/react/icons";
 import { useSelector } from "react-redux";
 
 const Card = memo(
-  ({ movie, addMovieMyList, removeMovieMyList, mobileFilter, mobileMode }) => {
+  ({
+    movie,
+    addMovieMyList,
+    removeMovieMyList,
+    mobileFilter,
+    OnSetIsHoverd,
+  }) => {
     const myList = useSelector((state) => state.movieModule.movies);
 
     const [isHoverd, setIsHoverd] = useState(false);
@@ -19,6 +25,8 @@ const Card = memo(
 
     const [movieTrailer, setMovieTrailer] = useState(null);
     const [isMuted, setIsMuted] = useState(true);
+
+    const mobileMode = useSelector((state) => state.userModule.mobileMode);
 
     async function loadMovieTrailer(time = 5000) {
       setTimeout(async () => {
@@ -83,10 +91,12 @@ const Card = memo(
     }
 
     function handleMouseEnter(movieName) {
+      OnSetIsHoverd(movieName);
       setIsHoverd(movieName);
     }
 
     function handleMouseOut(value) {
+      OnSetIsHoverd(value);
       setIsHoverd(value);
       setMovieTrailer(value);
     }
@@ -111,7 +121,7 @@ const Card = memo(
       >
         <img
           className={`poster ${mobileFilter ? "mobile" : ""} ${
-            mobileMode ? "selected" : ""
+            mobileMode && isHoverd ? "grow" : ""
           }`}
           src={`${baseUrl + movie.backdrop_path}`}
         />
@@ -149,6 +159,8 @@ const Card = memo(
           </div>
 
           <h1 className="title">{movie.title || movie.name}</h1>
+
+          <button onClick={() => handleMouseOut(null)}>X</button>
 
           <div className="hover-btns">
             <div className="left">

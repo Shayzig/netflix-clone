@@ -127,10 +127,21 @@ export default function Banner() {
       <header className="banner">
         <div className="img-video-container">
           {!movieTrailer && (
-            <img
-              className="banner-img"
-              src={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path}`}
-            />
+            <>
+              {mobileMode ? (
+                <div className="banner-img">
+                  <img
+                    src={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path}`}
+                    alt="Movie backdrop"
+                  />
+                </div>
+              ) : (
+                <img
+                  src={`https://image.tmdb.org/t/p/original/${movie?.backdrop_path}`}
+                  alt="Movie backdrop"
+                />
+              )}
+            </>
           )}
 
           {movieTrailer && (
