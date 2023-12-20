@@ -1,0 +1,98 @@
+.nav {
+    position: fixed;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    top: 0;
+    width: 100%;
+    height: rem(70px);
+    z-index: 999;
+    transition-timing-function: ease-in;
+    transition: all 0.5s;
+    padding-inline: rem(40px) rem(60px);
+    background-image: linear-gradient(0deg, transparent, rgba(0, 0, 0, 0.798));
+
+    .left {
+        display: flex;
+        align-items: center;
+        gap: rem(40px);
+
+        .logo {
+            width: rem(110px);
+            object-fit: contain;
+            cursor: pointer;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: rem(13px);
+            color: #e5e5e5;
+            font-family: sans-serif;
+            font-size: 0.7vw;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.478);
+
+            a {
+                font-family: netflix;
+            }
+
+            .clicked {
+                font-weight: 800;
+            }
+        }
+    }
+
+    .user-btns {
+        display: flex;
+        gap: 5%;
+        align-items: center;
+
+        .search {
+            display: flex;
+            gap: 0.4rem;
+            align-items: center;
+            justify-content: center;
+            padding: 0.2rem;
+            padding-left: 0.5rem;
+
+            button {
+                background-color: transparent;
+                border: none;
+                &:focus {
+                    outline: none;
+                }
+                svg {
+                    color: white;
+                    font-size: 1.2rem;
+                }
+            }
+            input {
+                width: 0;
+                opacity: 0;
+                visibility: hidden;
+                transition: 0.3s ease-in-out;
+                background-color: transparent;
+                border: none;
+                color: rgb(255, 255, 255);
+                &:focus {
+                    outline: none;
+                }
+            }
+        }
+        .show-search {
+            border: 1px solid white;
+            background-color: rgba(0, 0, 0, 0.6);
+            input {
+                width: 100%;
+                opacity: 1;
+                visibility: visible;
+                padding: 0.3rem;
+            }
+        }
+        .avatar {
+            width: rem(35px);
+            border-radius: rem(3px);
+            cursor: pointer;
+        }
+    }
+}
