@@ -10,7 +10,6 @@ export default function HomeScreen() {
   const filterBy = useSelector((state) => state.movieModule.filterby);
   const [movies, setMovies] = useState(null);
   const mobileMode = useSelector((state) => state.userModule.mobileMode);
-  const [isHoverd, setIsHoverd] = useState(false);
 
   useEffectUpdate(() => {
     loadMovies(filterBy.movie);
@@ -25,63 +24,25 @@ export default function HomeScreen() {
     }
   }
 
-  function OnSetIsHoverd(boolean) {
-    setIsHoverd(boolean);
-  }
-
   return (
     <div className="home-screen">
-      <div className={`drop ${isHoverd ? "show" : ""}`}></div>
       <Banner />
 
       <div className="rows-container">
         {filterBy.movie !== "" ? (
-          <Row
-            title="Your serach"
-            filterdMovies={movies}
-            OnSetIsHoverd={OnSetIsHoverd}
-          />
+          <Row title="Your serach" filterdMovies={movies} />
         ) : (
           <>
-            <Row
-              title="NETFLIX ORIGINALS"
-              fetchUrl="fetchNetflixOriginals"
-              OnSetIsHoverd={OnSetIsHoverd}
-            />
-            <Row
-              title="Tranding Now"
-              fetchUrl="fetchTrending"
-              OnSetIsHoverd={OnSetIsHoverd}
-            />
-            <Row
-              title="Top Rated"
-              fetchUrl="fetchTopRated"
-              OnSetIsHoverd={OnSetIsHoverd}
-            />
-            <Row
-              title="Action Movies"
-              fetchUrl="fetchActionMovies"
-              OnSetIsHoverd={OnSetIsHoverd}
-            />
-            <Row
-              title="Comedy Movies"
-              fetchUrl="fetchComedyMovies"
-              OnSetIsHoverd={OnSetIsHoverd}
-            />
-            <Row
-              title="Horror Movies"
-              fetchUrl="fetchHorrowMovies"
-              OnSetIsHoverd={OnSetIsHoverd}
-            />
-            <Row
-              title="Romance Movies"
-              fetchUrl="fetchRomanceMovies"
-              OnSetIsHoverd={OnSetIsHoverd}
-            />
+            <Row title="NETFLIX ORIGINALS" fetchUrl="fetchNetflixOriginals" />
+            <Row title="Tranding Now" fetchUrl="fetchTrending" />
+            <Row title="Top Rated" fetchUrl="fetchTopRated" />
+            <Row title="Action Movies" fetchUrl="fetchActionMovies" />
+            <Row title="Comedy Movies" fetchUrl="fetchComedyMovies" />
+            <Row title="Horror Movies" fetchUrl="fetchHorrowMovies" />
+            <Row title="Romance Movies" fetchUrl="fetchRomanceMovies" />
             <Row
               title="Documentaries Movies"
               fetchUrl="fetchDocumentariesMovies"
-              OnSetIsHoverd={OnSetIsHoverd}
             />
           </>
         )}

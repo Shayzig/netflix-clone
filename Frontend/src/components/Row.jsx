@@ -5,13 +5,7 @@ import Card from "./Card";
 import { addMovie, removeMovie } from "../store/actions/movie.action";
 
 const Row = memo(
-  ({
-    title,
-    fetchUrl = "",
-    filterdMovies = null,
-    mobileFilter,
-    OnSetIsHoverd,
-  }) => {
+  ({ title, fetchUrl = "", filterdMovies = null, mobileFilter }) => {
     const [sliderPosition, setSliderPosition] = useState(0);
     const [movies, setMovies] = useState(null);
     let [scroll, setScroll] = useState(0);
@@ -112,7 +106,6 @@ const Row = memo(
                   index={index}
                   movie={movie}
                   mobileFilter={mobileFilter}
-                  OnSetIsHoverd={OnSetIsHoverd}
                 />
               ))}
             </div>

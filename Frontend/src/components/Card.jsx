@@ -1,9 +1,10 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useMemo, useState } from "react";
 import { IoCheckmark, IoPlayCircleSharp } from "react-icons/io5";
 import { AiOutlinePlus } from "react-icons/ai";
 import { RiThumbUpFill, RiThumbDownFill } from "react-icons/ri";
 import { BiChevronDown } from "react-icons/bi";
 import { BsCheck } from "react-icons/bs";
+import { IoCloseOutline } from "react-icons/io5";
 import { moviesService } from "../services/moviesService";
 import { MuteIcon, VolumeHighIcon } from "@vidstack/react/icons";
 import { useSelector } from "react-redux";
@@ -15,18 +16,18 @@ const Card = memo(
     addMovieMyList,
     removeMovieMyList,
     mobileFilter,
-    OnSetIsHoverd,
+    OnSetBlackDropBg,
   }) => {
+    const baseUrl = "https://image.tmdb.org/t/p/original/";
+
+    const mobileMode = useSelector((state) => state.userModule.mobileMode);
     const myList = useSelector((state) => state.movieModule.movies);
 
     const [isHoverd, setIsHoverd] = useState(false);
     const [isLiked, setIsLiked] = useState(false);
-    const baseUrl = "https://image.tmdb.org/t/p/original/";
 
     const [movieTrailer, setMovieTrailer] = useState(null);
     const [isMuted, setIsMuted] = useState(true);
-
-    const mobileMode = useSelector((state) => state.userModule.mobileMode);
 
     async function loadMovieTrailer(time = 5000) {
       setTimeout(async () => {
@@ -93,12 +94,10 @@ const Card = memo(
     }
 
     function handleMouseEnter(movieName) {
-      OnSetIsHoverd(movieName);
       setIsHoverd(movieName);
     }
 
     function handleMouseOut(value) {
-      OnSetIsHoverd(value);
       setIsHoverd(false);
       setMovieTrailer(value);
     }
@@ -115,6 +114,20 @@ const Card = memo(
       return myList?.some((m) => m.id === movie.id);
     }
 
+    useMemo(() => {
+      const body = document.querySelector("body");
+
+      if (isHoverd) {
+        body.style.overflow = "hidden";
+      } else {
+        body.style.overflow = "auto";
+      }
+
+      return () => {
+        body.style.overflow = "auto";
+      };
+    }, [isHoverd]);
+
     return (
       <div
         className="card-container"
@@ -130,6 +143,10 @@ const Card = memo(
 
         <div className={`hover ${isHoverd ? "show" : ""}`}>
           <div className="image-video-container">
+            <IoCloseOutline
+              className="close-btn"
+              onClick={() => handleMouseOut(null)}
+            />
             {!movieTrailer && (
               <img src={`${baseUrl + movie.backdrop_path}`} alt="card" />
             )}
@@ -145,11 +162,7 @@ const Card = memo(
                     className="video-btn toggle-mute"
                     onClick={handleToggleMute}
                   >
-                    {isMuted ? (
-                      <MuteIcon size={16} />
-                    ) : (
-                      <VolumeHighIcon size={16} />
-                    )}
+                    {isMuted ? <MuteIcon /> : <VolumeHighIcon />}
                   </button>
                 </div>
               </>
@@ -157,8 +170,6 @@ const Card = memo(
           </div>
 
           <h1 className="title">{movie.title || movie.name}</h1>
-
-          <button onClick={() => handleMouseOut(null)}>X</button>
 
           <div className="hover-btns">
             <div className="left">
