@@ -107,7 +107,7 @@ export default function Plans() {
       }
     });
 
-    loadUserSub(user.id);
+    loadUserSubs(user.id);
   };
 
   function formatRenewalTime() {
@@ -116,7 +116,7 @@ export default function Plans() {
     ).toLocaleDateString();
   }
 
-  async function loadUserSub(userUid) {
+  async function loadUserSubs(userUid) {
     try {
       const subscriptionCollection = collection(
         db,
@@ -127,20 +127,23 @@ export default function Plans() {
 
       const querySnapshot = await getDocs(subscriptionCollection);
 
-      if (!querySnapshot.empty) {
-        const currentDateInSeconds = Math.floor(new Date().getTime() / 1000);
+      const currentDateInSeconds = Math.floor(new Date().getTime() / 1000);
 
+      if (!querySnapshot.empty) {
         querySnapshot.forEach((subscriptionDoc) => {
           const subscriptionData = subscriptionDoc.data();
-          setUserSub(
+          if (
             subscriptionData.current_period_start.seconds <=
               currentDateInSeconds &&
-              subscriptionData.current_period_end.seconds >=
-                currentDateInSeconds
-          );
+            subscriptionData.current_period_end.seconds >= currentDateInSeconds
+          ) {
+            setUserSub("yes");
+          } else {
+            setUserSub("no");
+          }
         });
       } else {
-        console.log("User does not have any subscriptions.");
+        setUserSub("no");
       }
     } catch (error) {
       console.error("Error checking subscriptions:", error);

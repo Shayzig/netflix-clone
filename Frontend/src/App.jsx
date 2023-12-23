@@ -6,6 +6,7 @@ import {
   Routes,
   Route,
   Navigate,
+  // useNavigate,
 } from "react-router-dom";
 import Login from "./pages/Login";
 import { onAuthStateChanged, auth } from "./firebase.js";
@@ -31,6 +32,7 @@ function App() {
   const isUserSub = useSelector((state) => state.userModule.isUserSub);
 
   const mobileMode = useSelector((state) => state.userModule.mobileMode);
+  // const navigate = useNavigate();
 
   useEffect(() => {
     const unsbscribe = onAuthStateChanged(auth, (userAuth) => {
@@ -39,7 +41,6 @@ function App() {
           uid: userAuth.uid,
           email: userAuth.email,
         });
-
         loadUserSubs(userAuth.uid);
       } else {
         logoutUser();
@@ -77,20 +78,26 @@ function App() {
 
       const querySnapshot = await getDocs(subscriptionCollection);
 
-      if (!querySnapshot.empty) {
-        const currentDateInSeconds = Math.floor(new Date().getTime() / 1000);
+      const currentDateInSeconds = Math.floor(new Date().getTime() / 1000);
 
+      if (!querySnapshot.empty) {
         querySnapshot.forEach((subscriptionDoc) => {
           const subscriptionData = subscriptionDoc.data();
-          setUserSub(
+          if (
             subscriptionData.current_period_start.seconds <=
               currentDateInSeconds &&
-              subscriptionData.current_period_end.seconds >=
-                currentDateInSeconds
-          );
+            subscriptionData.current_period_end.seconds >= currentDateInSeconds
+          ) {
+            console.log("yes");
+            setUserSub("yes");
+          } else {
+            console.log("no1");
+            setUserSub("no");
+          }
         });
       } else {
-        setUserSub(false);
+        setUserSub("no");
+        console.log("no2");
         console.log("User does not have any subscriptions.");
       }
     } catch (error) {
@@ -99,7 +106,7 @@ function App() {
   }
 
   function RouteGuard({ children }) {
-    if (!isUserSub) return <Navigate to="/netflix-clone/profile" />;
+    if (isUserSub === "no") return <Navigate to="/netflix-clone/profile" />;
     return <>{children}</>;
   }
 
