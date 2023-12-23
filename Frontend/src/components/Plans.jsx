@@ -12,6 +12,7 @@ import {
 } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { loadStripe } from "@stripe/stripe-js";
+import { setUserSub } from "../store/actions/user.actions";
 
 export default function Plans() {
   const [products, setProducts] = useState([]);
@@ -43,6 +44,7 @@ export default function Plans() {
       setProducts(products);
     });
   }
+
   function loadSubscription() {
     const subscriptionCollection = collection(
       db,
@@ -104,6 +106,8 @@ export default function Plans() {
         stripe.redirectToCheckout({ sessionId });
       }
     });
+
+    loadUserSub(user.id);
   };
 
   function formatRenewalTime() {
@@ -112,8 +116,40 @@ export default function Plans() {
     ).toLocaleDateString();
   }
 
+  async function loadUserSub(userUid) {
+    try {
+      const subscriptionCollection = collection(
+        db,
+        "customers",
+        userUid,
+        "subscriptions"
+      );
+
+      const querySnapshot = await getDocs(subscriptionCollection);
+
+      if (!querySnapshot.empty) {
+        const currentDateInSeconds = Math.floor(new Date().getTime() / 1000);
+
+        querySnapshot.forEach((subscriptionDoc) => {
+          const subscriptionData = subscriptionDoc.data();
+          setUserSub(
+            subscriptionData.current_period_start.seconds <=
+              currentDateInSeconds &&
+              subscriptionData.current_period_end.seconds >=
+                currentDateInSeconds
+          );
+        });
+      } else {
+        console.log("User does not have any subscriptions.");
+      }
+    } catch (error) {
+      console.error("Error checking subscriptions:", error);
+    }
+  }
+
   return (
     <div className="plans">
+      <button onClick={() => isUserSubs()}>click</button>
       {subscription && <p>Renewal date: {formatRenewalTime()}</p>}
       {Object.entries(products).map(([productId, productData]) => {
         const isCurrentPackage = productData.name
