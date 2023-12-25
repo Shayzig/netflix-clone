@@ -62,22 +62,7 @@ input {
 
 // MAC like scrollbar
 ::-webkit-scrollbar {
-    width: 8px;
-    background-color: rgba(0, 0, 0, 0);
-    -webkit-border-radius: 100px;
-}
-
-::-webkit-scrollbar:hover {
-    background-color: rgba(0, 0, 0, 0.09);
-}
-
-::-webkit-scrollbar-thumb:vertical {
-    background: rgba(0, 0, 0, 0.5);
-    -webkit-border-radius: 100px;
-}
-
-::-webkit-scrollbar-thumb:vertical:active {
-    -webkit-border-radius: 100px;
+    display: none;
 }
 
 .home-screen {
@@ -100,13 +85,32 @@ input {
 }
 
 @media screen and (min-width: $tablet-breakpoint) {
+    ::-webkit-scrollbar {
+        width: 8px;
+        background-color: white;
+        -webkit-border-radius: 100px;
+    }
+
+    ::-webkit-scrollbar:hover {
+        background-color: white;
+        // background-color: rgba(186, 186, 186, 0.09);
+    }
+
+    ::-webkit-scrollbar-thumb:vertical {
+        background: rgba(0, 0, 0, 0.5);
+        -webkit-border-radius: 100px;
+    }
+
+    ::-webkit-scrollbar-thumb:vertical:active {
+        -webkit-border-radius: 100px;
+    }
     body {
         background-color: black;
         overflow-x: clip;
         .home-screen {
             .rows-container {
                 position: relative;
-                z-index: 999;
+                z-index: 998;
                 margin-block-start: -18%;
                 overflow: clip;
             }

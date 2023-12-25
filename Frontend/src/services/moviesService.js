@@ -19,16 +19,17 @@ cache = cache ? JSON.parse(cache) : {}
 const API_KEY = '1ded769ef93b775933fada2149c582f3'
 const baseURL = 'https://api.themoviedb.org/3'
 
-const requests = {
-    fetchTrending: `/tending/all/week?api_key=${API_KEY}&language=en-US`,
-    fetchNetflixOriginals: `/discover/tv?api_key=${API_KEY}&woth_networks=213`,
-    fectTopRated: `/movie/top_rated?api_key=${API_KEY}&language=en-US`,
-    fetchActionMovies: `/discover/movie?api_key=${API_KEY}&with_genres=28`,
-    fetchComedyMovies: `/discover/movie?api_key=${API_KEY}&with_genres=35`,
-    fetchHorrowMovies: `/discover/movie?api_key=${API_KEY}&with_genres=27`,
-    fetchRomanceMovies: `/discover/movie?api_key=${API_KEY}&with_genres=10749`,
-    fetchDocumentariesMovies: `/discover/movie?api_key=${API_KEY}&with_genres=99`,
-}
+
+export const requests = [
+    { fetch: `fetchTrending`, title: 'Tranding Now' },
+    { fetch: `fetchNetflixOriginals`, title: 'NETFLIX ORIGINALS' },
+    { fetch: `fetchTopRated`, title: 'Top Rated' },
+    { fetch: `fetchActionMovies`, title: 'Action Movies' },
+    { fetch: `fetchComedyMovies`, title: 'Comedy Movies' },
+    { fetch: `fetchHorrowMovies`, title: 'Horror Movies' },
+    { fetch: `fetchRomanceMovies`, title: 'Romance Movies' },
+    { fetch: `fetchDocumentariesMovies`, title: 'Documentaries Movies' },
+]
 
 export async function getMoviesByGenre(moviesGenre) {
     let req = null

@@ -59,6 +59,12 @@
     }
     .movies-wrapper {
         margin-block-start: 30px;
+        .mobile-filter-title {
+            color: white;
+            font-size: rem(20px);
+            margin-inline-start: rem(10px);
+            font-family: netflix-bold;
+        }
 
         .user-alert {
             display: flex;

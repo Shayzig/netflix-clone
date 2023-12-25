@@ -9,15 +9,11 @@ import { moviesService } from "../services/moviesService";
 import { MuteIcon, VolumeHighIcon } from "@vidstack/react/icons";
 import { useSelector } from "react-redux";
 import Player from "./Player";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 const Card = memo(
-  ({
-    movie,
-    addMovieMyList,
-    removeMovieMyList,
-    mobileFilter,
-    OnSetBlackDropBg,
-  }) => {
+  ({ movie, addMovieMyList, removeMovieMyList, mobileFilter }) => {
     const baseUrl = "https://image.tmdb.org/t/p/original/";
 
     const mobileMode = useSelector((state) => state.userModule.mobileMode);
@@ -118,7 +114,7 @@ const Card = memo(
       const body = document.querySelector("body");
 
       if (isHoverd) {
-        body.style.overflow = "hidden";
+        body.style.overflowX = "clip";
       } else {
         body.style.overflow = "auto";
       }
@@ -134,11 +130,12 @@ const Card = memo(
         onMouseEnter={() => handleMouseEnter(movie.name || movie.title)}
         onMouseLeave={() => handleMouseOut(null)}
       >
-        <img
+        <LazyLoadImage
+          src={`${baseUrl + movie.backdrop_path}`}
+          effect="blur"
           className={`poster ${mobileFilter ? "mobile" : ""} ${
             mobileMode && isHoverd ? "grow" : ""
           }`}
-          src={`${baseUrl + movie.backdrop_path}`}
         />
 
         <div className={`hover ${isHoverd ? "show" : ""}`}>
@@ -148,7 +145,7 @@ const Card = memo(
               onClick={() => handleMouseOut(null)}
             />
             {!movieTrailer && (
-              <img src={`${baseUrl + movie.backdrop_path}`} alt="card" />
+              <LazyLoadImage src={`${baseUrl + movie.backdrop_path}`} alt="" />
             )}
             {movieTrailer && (
               <>

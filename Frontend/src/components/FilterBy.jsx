@@ -21,8 +21,6 @@ export default function FilterBy({ filterBy, onChangeFilter }) {
     }
   }, [filterBy]);
 
-  console.log(filterBy);
-
   return (
     <div className="filter">
       <span className="btn search">

@@ -42,7 +42,7 @@
 
 @media screen and (min-width: $tablet-breakpoint) {
     .category-title {
-        font-size: 2vw;
+        font-size: 1.7vw;
         margin-block-end: rem(20px);
     }
     .row-container {
@@ -65,7 +65,7 @@
                 bottom: 0;
                 width: 50px;
                 transition: 0.3s ease-in-out;
-                z-index: 999;
+                z-index: 998;
                 cursor: pointer;
 
                 svg {
