@@ -34,18 +34,22 @@ export default function MobileFilteredMovies() {
     setFilterBy(filterBy);
   }
 
+  function handleBack() {
+    onChangeFilter({ movie: "" });
+    navigate("/netflix-clone");
+  }
+
   return (
     <div className="filterd-movies">
       <div className="filter-wrapper">
-        <button className="back-btn" onClick={() => navigate("/netflix-clone")}>
+        <button className="back-btn" onClick={() => handleBack()}>
           <MdOutlineArrowBackIos />
         </button>
         <FilterBy filterBy={filterBy} onChangeFilter={onChangeFilter} />
       </div>
       <div className="movies-wrapper">
-        {filterBy.movie && (
-          <Row title="Your search" mobileFilter={true} filterdMovies={movies} />
-        )}
+        <h2 className="mobile-filter-title">Your Search</h2>
+        {filterBy.movie && <Row mobileFilter={true} filteredMovies={movies} />}
       </div>
     </div>
   );

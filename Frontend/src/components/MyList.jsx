@@ -8,7 +8,7 @@ export default function MyList() {
   return (
     <div className="my-list-container">
       <h4 className="list-title">My List</h4>
-      <Row filterdMovies={movies} />
+      <Row filteredMovies={movies} />
     </div>
   );
 }

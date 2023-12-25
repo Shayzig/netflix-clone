@@ -1,15 +1,24 @@
-import React, { memo, useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  Suspense,
+  memo,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { moviesService } from "../services/moviesService";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import Card from "./Card";
 import { addMovie, removeMovie } from "../store/actions/movie.action";
+import { useSelector } from "react-redux";
 
 const Row = memo(
-  ({ title, fetchUrl = "", filterdMovies = null, mobileFilter }) => {
+  ({ title, fetchUrl = "", filteredMovies = null, mobileFilter }) => {
     const [sliderPosition, setSliderPosition] = useState(0);
     const [movies, setMovies] = useState(null);
     let [scroll, setScroll] = useState(0);
     const [isControls, setIsControls] = useState(false);
+    const myList = useSelector((state) => state.movieModule.movies);
 
     const handleDirection = (direction) => {
       const scrollStep = 91.7;
@@ -33,44 +42,44 @@ const Row = memo(
     };
 
     useEffect(() => {
-      if (!filterdMovies) {
+      if (!filteredMovies) {
         loadMoviesByGenre();
       } else {
-        setMovies(filterdMovies);
+        setMovies(filteredMovies);
       }
-    }, [filterdMovies]);
+    }, [filteredMovies]);
 
     async function loadMoviesByGenre() {
       try {
         const movies = await moviesService.getMoviesByGenre(fetchUrl);
         setMovies(movies);
       } catch (error) {
-        console.log(error, fetchUrl);
+        console.log(error, "fetch:", fetchUrl);
       }
     }
 
-    const onAddMovie = useCallback(async (movie) => {
-      try {
-        await addMovie(movie);
-      } catch (error) {
-        console.log(error);
-      }
-    }, []);
+    const onAddMovie = useCallback(
+      async (movie) => {
+        try {
+          await addMovie(movie);
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      [myList]
+    );
 
-    const onRemoveMovie = useCallback(async (movieId) => {
-      try {
-        await removeMovie(movieId);
-      } catch (error) {
-        console.log(error);
-      }
-    });
-
-    if (!movies)
-      return (
-        <>
-          <h2>Lodaing...</h2>
-        </>
-      );
+    const onRemoveMovie = useCallback(
+      async (movieId) => {
+        try {
+          const bannerMovie = myList.find((m) => m.id === movieId);
+          await removeMovie(bannerMovie._id);
+        } catch (error) {
+          console.log(error);
+        }
+      },
+      [myList]
+    );
 
     return (
       <>

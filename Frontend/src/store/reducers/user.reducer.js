@@ -6,7 +6,7 @@ export const SET_USER_SUB = 'SET_USER_SUB'
 const initialState = {
     loggedinUser: null,
     mobileMode: null,
-    isUserSub: 'no'
+    isUserSub: null
 }
 
 export function userReducer(state = initialState, action = {}) {

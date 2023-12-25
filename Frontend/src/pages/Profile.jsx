@@ -11,7 +11,6 @@ export default function Profile() {
   const navigate = useNavigate();
 
   function onSignOut() {
-    console.log(auth);
     signOut(auth);
     navigate("/netflix-clone");
   }

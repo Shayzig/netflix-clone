@@ -18,13 +18,17 @@
 @import "pages/sign-up";
 @import "pages/profile";
 
-// Components
+// Desktop && Mobile components
 @import "cmps/nav";
-@import "cmps/mobile-nav";
 @import "cmps/banner";
 @import "cmps/row";
 @import "cmps/plans";
 @import "cmps/movie-hover";
 @import "cmps/card";
 @import "cmps/my-list";
-@import "./cmps/mobile-filterd-movies";
+
+// Mobile only components
+@import "cmps/mobile-nav";
+@import "cmps/mobile-filterd-movies";
+@import "cmps/mobile-footer";
+@import "cmps/mobile-profile";

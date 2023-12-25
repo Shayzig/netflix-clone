@@ -10,7 +10,7 @@ import {
 } from "react-router-dom";
 import Login from "./pages/Login";
 import { onAuthStateChanged, auth } from "./firebase.js";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import {
   loginUser,
   logoutUser,
@@ -26,46 +26,50 @@ import MobileFilteredMovies from "./components/MobileFilteredMovies";
 import MobileNav from "./components/MobileNav";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "./firebase";
+import { useWindowSize } from "@uidotdev/usehooks";
+import { useEffectUpdate } from "./customHooks/useEffectUpdate";
+import MobileFooter from "./components/MobileFooter";
+import MobileProfile from "./components/MobileProfile";
 
 function App() {
   const user = useSelector((state) => state.userModule.loggedinUser);
   const isUserSub = useSelector((state) => state.userModule.isUserSub);
 
-  const mobileMode = useSelector((state) => state.userModule.mobileMode);
-  // const navigate = useNavigate();
+  const size = useWindowSize();
 
-  useEffect(() => {
+  const mobileMode = useSelector((state) => state.userModule.mobileMode);
+
+  useLayoutEffect(() => {
     const unsbscribe = onAuthStateChanged(auth, (userAuth) => {
       if (userAuth) {
         loginUser({
           uid: userAuth.uid,
           email: userAuth.email,
         });
-        loadUserSubs(userAuth.uid);
       } else {
         logoutUser();
       }
+      return unsbscribe;
     });
-
-    return unsbscribe;
   }, [auth.currentUser]);
 
   useEffect(() => {
     getMyListMovies();
   }, []);
 
-  const updateScreenSize = () => {
-    setMobileMode(window.innerWidth < 600);
-  };
-
   useEffect(() => {
-    updateScreenSize();
-    window.addEventListener("resize", updateScreenSize);
+    if (size.width < 600) {
+      setMobileMode(true);
+    } else {
+      setMobileMode(false);
+    }
+  }, [size]);
 
-    return () => {
-      window.removeEventListener("resize", updateScreenSize);
-    };
-  }, []);
+  useEffectUpdate(() => {
+    if (user) {
+      loadUserSubs(user.uid);
+    }
+  }, [user]);
 
   async function loadUserSubs(userUid) {
     try {
@@ -80,26 +84,20 @@ function App() {
 
       const currentDateInSeconds = Math.floor(new Date().getTime() / 1000);
 
-      if (!querySnapshot.empty) {
-        querySnapshot.forEach((subscriptionDoc) => {
-          const subscriptionData = subscriptionDoc.data();
-          if (
-            subscriptionData.current_period_start.seconds <=
-              currentDateInSeconds &&
-            subscriptionData.current_period_end.seconds >= currentDateInSeconds
-          ) {
-            console.log("yes");
-            setUserSub("yes");
-          } else {
-            console.log("no1");
-            setUserSub("no");
-          }
-        });
-      } else {
-        setUserSub("no");
-        console.log("no2");
-        console.log("User does not have any subscriptions.");
-      }
+      if (querySnapshot.empty) return setUserSub("no");
+
+      querySnapshot.forEach((subscriptionDoc) => {
+        const subscriptionData = subscriptionDoc.data();
+        if (
+          subscriptionData.current_period_start.seconds <=
+            currentDateInSeconds &&
+          subscriptionData.current_period_end.seconds >= currentDateInSeconds
+        ) {
+          setUserSub("yes");
+        } else {
+          setUserSub("no");
+        }
+      });
     } catch (error) {
       console.error("Error checking subscriptions:", error);
     }
@@ -135,6 +133,8 @@ function App() {
                   </RouteGuard>
                 }
               />
+              <Route path="netflix-clone/profile" element={<Profile />} />
+              {/* Mobile */}
               <Route
                 path="/my-search"
                 element={
@@ -143,9 +143,16 @@ function App() {
                   </RouteGuard>
                 }
               />
-
-              <Route path="netflix-clone/profile" element={<Profile />} />
+              <Route
+                path="netflix-clone/mobile-profile"
+                element={
+                  <RouteGuard>
+                    <MobileProfile />
+                  </RouteGuard>
+                }
+              />
             </Routes>
+            {mobileMode && <MobileFooter />}
           </>
         )}
       </Router>

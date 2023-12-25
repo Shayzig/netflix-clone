@@ -1,0 +1,24 @@
+.mobile-profile {
+    display: flex;
+    flex-direction: column;
+    color: white;
+    margin-block-start: 30%;
+
+    .user-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        &:first-child {
+            font-size: rem(60px);
+        }
+        .user-details {
+            display: flex;
+            gap: rem(5px);
+            font-family: netflix-bold;
+            font-size: rem(22px);
+        }
+    }
+    .mobile-row-container {
+        margin-block-start: rem(50px);
+    }
+}
