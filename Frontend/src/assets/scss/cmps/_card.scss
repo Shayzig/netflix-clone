@@ -1,3 +1,34 @@
+@keyframes scaleRef {
+    0% {
+        opacity: 1;
+        scale: 0.7;
+        transform: translate(-50%, -29%);
+    }
+    25% {
+        opacity: 1;
+    }
+
+    100% {
+        scale: 1;
+        opacity: 1;
+    }
+}
+@keyframes scaleRefOpssite {
+    0% {
+        scale: 1;
+        opacity: 1;
+    }
+    25% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+        scale: 0.7;
+        transform: translate(-50%, -29%);
+    }
+}
+
 .card-container {
     position: relative;
 
@@ -33,7 +64,7 @@
         &.show {
             z-index: 999;
             position: fixed;
-            scale: 1;
+            // scale: 1;
         }
 
         .image-video-container {
@@ -127,25 +158,28 @@
 @media screen and (min-width: $tablet-breakpoint) {
     .card-container {
         .poster {
-            width: 14.5vw;
+            width: 17.5vw;
         }
 
         .hover {
-            height: 0;
-            width: 0;
-            opacity: 0;
+            height: max-content;
+            width: 25vw;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
             border-radius: 0.3rem;
             background-color: #181818;
+            transform-origin: top left;
+            animation-name: scaleRefOpssite;
+            animation-duration: 0.3s;
+            scale: 0;
+            z-index: 999;
 
             &.show {
                 position: absolute;
-                height: max-content;
-                width: 20vw;
-                opacity: 1;
-                transform: translate(-50%, -40%);
+                scale: 1;
+                animation-name: scaleRef;
+                animation-duration: 0.3s;
             }
 
             .image-video-container {

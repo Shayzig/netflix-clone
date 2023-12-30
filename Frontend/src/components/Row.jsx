@@ -107,7 +107,7 @@ const Row = memo(
               className={`${mobileFilter ? "col" : "slider"} `}
               style={{ left: `${scroll}vw` }}
             >
-              {movies?.slice(0, 18).map((movie, index) => (
+              {movies?.slice(0, 1).map((movie, index) => (
                 <Card
                   addMovieMyList={onAddMovie}
                   removeMovieMyList={onRemoveMovie}

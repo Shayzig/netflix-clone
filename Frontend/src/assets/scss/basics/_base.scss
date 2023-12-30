@@ -112,7 +112,7 @@ input {
                 position: relative;
                 z-index: 998;
                 margin-block-start: -18%;
-                overflow: clip;
+                overflow-x: clip;
             }
         }
     }

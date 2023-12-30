@@ -1,16 +1,16 @@
 import React, { memo, useEffect, useMemo, useState } from "react";
-import { IoCheckmark, IoPlayCircleSharp } from "react-icons/io5";
-import { AiOutlinePlus } from "react-icons/ai";
-import { RiThumbUpFill, RiThumbDownFill } from "react-icons/ri";
-import { BiChevronDown } from "react-icons/bi";
-import { BsCheck } from "react-icons/bs";
 import { IoCloseOutline } from "react-icons/io5";
-import { moviesService } from "../services/moviesService";
+// import { moviesService } from "../services/moviesService";
 import { MuteIcon, VolumeHighIcon } from "@vidstack/react/icons";
 import { useSelector } from "react-redux";
 import Player from "./Player";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+import AddIcon from "@mui/icons-material/Add";
+import DoneIcon from "@mui/icons-material/Done";
+import PlayCircleIcon from "@mui/icons-material/PlayCircle";
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 
 const Card = memo(
   ({ movie, addMovieMyList, removeMovieMyList, mobileFilter }) => {
@@ -24,6 +24,8 @@ const Card = memo(
 
     const [movieTrailer, setMovieTrailer] = useState(null);
     const [isMuted, setIsMuted] = useState(true);
+
+    const [timeoutId, setTimeoutId] = useState(null);
 
     async function loadMovieTrailer(time = 5000) {
       setTimeout(async () => {
@@ -39,8 +41,8 @@ const Card = memo(
 
     useEffect(() => {
       if (isHoverd) {
-        // console.log("for dev");
-        loadMovieTrailer(2000);
+        console.log("for dev");
+        // loadMovieTrailer(6000);
       }
     }, [isHoverd]);
 
@@ -90,11 +92,15 @@ const Card = memo(
     }
 
     function handleMouseEnter(movieName) {
-      setIsHoverd(movieName);
+      const id = setTimeout(() => {
+        setIsHoverd(movieName);
+      }, 370);
+      setTimeoutId(id);
     }
 
     function handleMouseOut(value) {
       setIsHoverd(false);
+      clearTimeout(timeoutId);
       setMovieTrailer(value);
     }
 
@@ -106,9 +112,9 @@ const Card = memo(
       setMovieTrailer(value);
     }
 
-    function isOnMyList() {
+    const isOnMyList = useMemo(() => {
       return myList?.some((m) => m.id === movie.id);
-    }
+    }, [myList]);
 
     useMemo(() => {
       const body = document.querySelector("body");
@@ -130,11 +136,11 @@ const Card = memo(
         onMouseEnter={() => handleMouseEnter(movie.name || movie.title)}
         onMouseLeave={() => handleMouseOut(null)}
       >
-        <LazyLoadImage
+        <img
           src={`${baseUrl + movie.backdrop_path}`}
           effect="blur"
           className={`poster ${mobileFilter ? "mobile" : ""} ${
-            mobileMode && isHoverd ? "grow" : ""
+            isHoverd ? "grow" : ""
           }`}
         />
 
@@ -170,32 +176,30 @@ const Card = memo(
 
           <div className="hover-btns">
             <div className="left">
-              <IoPlayCircleSharp className="play-btn" />
-              {!isOnMyList() ? (
-                <AiOutlinePlus
+              <PlayCircleIcon className="play-btn" />
+              {!isOnMyList ? (
+                <AddIcon
                   onClick={() => addMovieMyList(movie)}
                   className="plus-btn"
                 />
               ) : (
-                <IoCheckmark
+                <DoneIcon
                   onClick={() => removeMovieMyList(movie.id)}
                   className="v-btn"
                 />
               )}
               {isLiked ? (
-                <RiThumbDownFill
+                <ThumbUpIcon
                   onClick={() => setIsLiked(false)}
                   className="unlike-btn"
                 />
               ) : (
-                <RiThumbUpFill
+                <ThumbDownAltIcon
                   onClick={() => setIsLiked(true)}
                   className="like-btn"
                 />
               )}
             </div>
-
-            <BiChevronDown className="more-btn" />
           </div>
 
           <div className="genre-container">
@@ -210,5 +214,3 @@ const Card = memo(
 );
 
 export default Card;
-
-/* {i !== movie.genre_ids.length - 1 && <div className="dot"></div>} */
