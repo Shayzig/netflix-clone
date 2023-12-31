@@ -1,31 +1,33 @@
-@keyframes scaleRef {
+@keyframes scaleIn {
     0% {
-        opacity: 1;
-        scale: 0.7;
-        transform: translate(-50%, -29%);
+        scale: 0.88;
+        transform: translate(-50%, -11.2vh);
+        opacity: 0;
     }
-    25% {
+    30% {
         opacity: 1;
+        scale: 0.88;
     }
-
     100% {
-        scale: 1;
-        opacity: 1;
+        scale: 1.2;
+        transform: translate(-50%, -11.2vh);
     }
 }
-@keyframes scaleRefOpssite {
+
+@keyframes scaleOut {
     0% {
-        scale: 1;
-        opacity: 1;
-    }
-    25% {
-        opacity: 1;
+        scale: 1.2;
+        transform: translate(-50%, -11.2vh);
     }
 
-    100% {
+    70% {
+        scale: 0.88;
         opacity: 1;
-        scale: 0.7;
-        transform: translate(-50%, -29%);
+    }
+    100% {
+        opacity: 0;
+        scale: 0.88;
+        transform: translate(-50%, -11.2vh);
     }
 }
 
@@ -63,7 +65,7 @@
 
         &.show {
             z-index: 999;
-            position: fixed;
+            // position: fixed;
             // scale: 1;
         }
 
@@ -159,27 +161,27 @@
     .card-container {
         .poster {
             width: 17.5vw;
+            height: rem(200px);
         }
 
         .hover {
             height: max-content;
-            width: 25vw;
+            width: 20vw;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
             border-radius: 0.3rem;
             background-color: #181818;
             transform-origin: top left;
-            animation-name: scaleRefOpssite;
-            animation-duration: 0.3s;
             scale: 0;
             z-index: 999;
+            transform: translate(-50%, -27%);
 
             &.show {
                 position: absolute;
-                scale: 1;
-                animation-name: scaleRef;
-                animation-duration: 0.3s;
+                animation: scaleIn 0.5s forwards;
+            }
+            &.not-shown {
+                animation: scaleOut 0.5s;
             }
 
             .image-video-container {
@@ -188,6 +190,7 @@
                 }
 
                 img {
+                    height: rem(225px);
                     border-top-left-radius: rem(3px);
                     border-top-right-radius: rem(3px);
                 }

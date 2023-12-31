@@ -12,7 +12,7 @@ import {
 } from "firebase/firestore";
 import { useSelector } from "react-redux";
 import { loadStripe } from "@stripe/stripe-js";
-import { setUserSub } from "../store/actions/user.actions";
+import { setIsUserSub } from "../store/actions/user.actions";
 
 export default function Plans() {
   const [products, setProducts] = useState([]);
@@ -137,13 +137,13 @@ export default function Plans() {
               currentDateInSeconds &&
             subscriptionData.current_period_end.seconds >= currentDateInSeconds
           ) {
-            setUserSub("yes");
+            setIsUserSub(true);
           } else {
-            setUserSub("no");
+            setIsUserSub(false);
           }
         });
       } else {
-        setUserSub("no");
+        setIsUserSub(false);
       }
     } catch (error) {
       console.error("Error checking subscriptions:", error);

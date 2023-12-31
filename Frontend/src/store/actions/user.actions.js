@@ -35,7 +35,7 @@ export async function setMobileMode(payload) {
         console.log('error:', error)
     }
 }
-export async function setUserSub(boolean) {
+export async function setIsUserSub(boolean) {
     try {
         const action = {
             type: SET_USER_SUB,

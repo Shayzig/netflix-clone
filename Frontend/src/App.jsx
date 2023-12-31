@@ -1,35 +1,41 @@
 import "./assets/scss/global.scss";
 import "./assets/scss/basics/_typography.scss";
 import HomeScreen from "./pages/HomeScreen";
+import Register from "./pages/Register";
+import Profile from "./pages/Profile";
+import MyList from "./components/MyList";
+import Nav from "./components/Nav";
+
+// Mobile only
+import MobileNav from "./components/MobileNav";
+import MobileFooter from "./components/MobileFooter";
+import MobileProfile from "./components/MobileProfile";
+import MobileFilteredMovies from "./components/MobileFilteredMovies";
+
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Navigate,
-  // useNavigate,
 } from "react-router-dom";
-import Login from "./pages/Login";
+
+// Firebase
+import { db } from "./firebase";
 import { onAuthStateChanged, auth } from "./firebase.js";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+
+import { useEffect, useLayoutEffect } from "react";
+import { useEffectUpdate } from "./customHooks/useEffectUpdate";
+import { useWindowSize } from "@uidotdev/usehooks";
+
+import { useSelector } from "react-redux";
+import { getMyListMovies } from "./store/actions/movie.action";
 import {
   loginUser,
   logoutUser,
+  setIsUserSub,
   setMobileMode,
-  setUserSub,
 } from "./store/actions/user.actions";
-import { useSelector } from "react-redux";
-import Profile from "./pages/Profile";
-import MyList from "./components/MyList";
-import { getMyListMovies } from "./store/actions/movie.action";
-import Nav from "./components/Nav";
-import MobileFilteredMovies from "./components/MobileFilteredMovies";
-import MobileNav from "./components/MobileNav";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "./firebase";
-import { useWindowSize } from "@uidotdev/usehooks";
-import { useEffectUpdate } from "./customHooks/useEffectUpdate";
-import MobileFooter from "./components/MobileFooter";
-import MobileProfile from "./components/MobileProfile";
 
 function App() {
   const user = useSelector((state) => state.userModule.loggedinUser);
@@ -67,11 +73,11 @@ function App() {
 
   useEffectUpdate(() => {
     if (user) {
-      loadUserSubs(user.uid);
+      checkUserSubs(user.uid);
     }
   }, [user]);
 
-  async function loadUserSubs(userUid) {
+  async function checkUserSubs(userUid) {
     try {
       const subscriptionCollection = collection(
         db,
@@ -84,7 +90,7 @@ function App() {
 
       const currentDateInSeconds = Math.floor(new Date().getTime() / 1000);
 
-      if (querySnapshot.empty) return setUserSub("no");
+      if (querySnapshot.empty) return setIsUserSub(false);
 
       querySnapshot.forEach((subscriptionDoc) => {
         const subscriptionData = subscriptionDoc.data();
@@ -93,9 +99,9 @@ function App() {
             currentDateInSeconds &&
           subscriptionData.current_period_end.seconds >= currentDateInSeconds
         ) {
-          setUserSub("yes");
+          setIsUserSub(true);
         } else {
-          setUserSub("no");
+          setIsUserSub(false);
         }
       });
     } catch (error) {
@@ -104,7 +110,8 @@ function App() {
   }
 
   function RouteGuard({ children }) {
-    if (isUserSub === "no") return <Navigate to="/netflix-clone/profile" />;
+    if (!isUserSub && isUserSub !== null)
+      return <Navigate to="/netflix-clone/profile" />;
     return <>{children}</>;
   }
 
@@ -112,7 +119,7 @@ function App() {
     <div className="app">
       <Router>
         {!user ? (
-          <Login />
+          <Register />
         ) : (
           <>
             {mobileMode ? <MobileNav /> : <Nav />}
@@ -134,7 +141,8 @@ function App() {
                 }
               />
               <Route path="netflix-clone/profile" element={<Profile />} />
-              {/* Mobile */}
+
+              {/* Mobile Routes*/}
               <Route
                 path="/my-search"
                 element={

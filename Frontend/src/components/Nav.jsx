@@ -10,7 +10,7 @@ export default function Nav() {
   const [show, handleShow] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [inputHover, setInputHover] = useState(false);
-  const [isClicked, setIsClicked] = useState("home");
+  const [isClicked, setIsClicked] = useState("");
 
   const filterBy = useSelector((state) => state.movieModule.filterby);
   const [register] = useForm(filterBy, setDebouncedFilterBy);

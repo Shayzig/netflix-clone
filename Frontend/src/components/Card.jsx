@@ -20,6 +20,7 @@ const Card = memo(
     const myList = useSelector((state) => state.movieModule.movies);
 
     const [isHoverd, setIsHoverd] = useState(false);
+    const [isFirstRun, setIsFirstRun] = useState(true);
     const [isLiked, setIsLiked] = useState(false);
 
     const [movieTrailer, setMovieTrailer] = useState(null);
@@ -42,7 +43,7 @@ const Card = memo(
     useEffect(() => {
       if (isHoverd) {
         console.log("for dev");
-        // loadMovieTrailer(6000);
+        // loadMovieTrailer(4000);
       }
     }, [isHoverd]);
 
@@ -93,6 +94,7 @@ const Card = memo(
 
     function handleMouseEnter(movieName) {
       const id = setTimeout(() => {
+        setIsFirstRun(false);
         setIsHoverd(movieName);
       }, 370);
       setTimeoutId(id);
@@ -139,12 +141,14 @@ const Card = memo(
         <img
           src={`${baseUrl + movie.backdrop_path}`}
           effect="blur"
-          className={`poster ${mobileFilter ? "mobile" : ""} ${
-            isHoverd ? "grow" : ""
-          }`}
+          className={`poster ${mobileFilter ? "mobile" : ""}`}
         />
 
-        <div className={`hover ${isHoverd ? "show" : ""}`}>
+        <div
+          className={`hover ${
+            isHoverd ? "show" : isFirstRun ? "" : "not-shown"
+          }`}
+        >
           <div className="image-video-container">
             <IoCloseOutline
               className="close-btn"

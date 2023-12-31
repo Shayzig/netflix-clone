@@ -1,13 +1,25 @@
-import React, { useRef, useState } from "react";
-import SignUp from "./SignUp";
+import React, { useState } from "react";
 import { useForm } from "../customHooks/useForm";
 
-export default function Login() {
-  const [signIn, setSignIn] = useState(false);
-  const [register, userAuth, setUserAuth] = useForm({
+import LoginSignUp from "./LoginSignUp";
+
+export default function Register() {
+  const [showLoginSignUp, setShowLoginSignUp] = useState(false);
+  const [register, userEmail] = useForm({
     email: "",
     password: "",
   });
+
+  const [userMode, setUserMode] = useState(null);
+
+  function handleLogin() {
+    setShowLoginSignUp(true);
+    setUserMode("login");
+  }
+  function handleSignUp() {
+    setShowLoginSignUp(true);
+    setUserMode("signUp");
+  }
 
   return (
     <div className="login-container">
@@ -17,15 +29,19 @@ export default function Login() {
         alt=""
       />
 
-      <button onClick={() => setSignIn(true)} className="login-btn">
+      <button onClick={() => handleLogin()} className="login-btn">
         Sign In
       </button>
 
       <div className="gradient" />
 
       <div className="body">
-        {signIn ? (
-          <SignUp userAuth={userAuth} />
+        {showLoginSignUp ? (
+          <LoginSignUp
+            userEmail={userEmail}
+            userMode={userMode}
+            onSetUserMode={setUserMode}
+          />
         ) : (
           <>
             <h1 className="login-title">
@@ -48,7 +64,7 @@ export default function Login() {
                 />
 
                 <button
-                  onClick={() => setSignIn(true)}
+                  onClick={() => handleSignUp()}
                   className="get-started-btn"
                 >
                   GET STARTED
