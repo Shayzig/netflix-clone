@@ -1,7 +1,11 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { moviesService } from "../services/moviesService";
-import MovieTrailer from "./MovieTrailer";
+import React, { useEffect, useState } from "react";
 import { useEffectUpdate } from "../customHooks/useEffectUpdate";
+
+import MovieTrailer from "./MovieTrailer";
+
+import { moviesService } from "../services/moviesService";
+import { addMovie, removeMovie } from "../store/actions/movie.action";
+
 import { PlayIcon } from "@vidstack/react/icons";
 import { InfoIcon } from "@vidstack/react/icons";
 import { MuteIcon } from "@vidstack/react/icons";
@@ -9,7 +13,6 @@ import { MdAdd } from "react-icons/md";
 import { VolumeHighIcon } from "@vidstack/react/icons";
 import { ReplayIcon } from "@vidstack/react/icons";
 import { useSelector } from "react-redux";
-import { addMovie, removeMovie } from "../store/actions/movie.action";
 import { IoCheckmark } from "react-icons/io5";
 
 export default function Banner() {
@@ -24,8 +27,8 @@ export default function Banner() {
 
   useEffectUpdate(() => {
     if (!mobileMode) {
-      console.log("loaded trailer desktop");
-      // loadTrailerMovie();
+      // console.log("loaded trailer desktop");
+      loadTrailerMovie();
     } else {
       getAverageColor();
     }
@@ -63,9 +66,9 @@ export default function Banner() {
   async function loadBannerMovie() {
     try {
       const movies = await moviesService.getMoviesByGenre("fetchTopRated");
-      // let randomNum = Math.floor(Math.random() * movies.length - 1);
-      const selectedMovie = movies[6]; // for dev
-      // const selectedMovie = movies[randomNum];
+      let randomNum = Math.floor(Math.random() * movies.length - 1);
+      // const selectedMovie = movies[6]; // for dev
+      const selectedMovie = movies[randomNum];
       setMovie(selectedMovie);
     } catch (error) {
       console.error("Error loading banner movie:", error);
@@ -167,7 +170,7 @@ export default function Banner() {
             <div className="movie-btns">
               <button className="banner-btn">
                 <PlayIcon />
-                <span>Play</span>
+                <span onClick={() => pauseMovieTrailer()}>Play</span>
               </button>
 
               {!mobileMode ? (

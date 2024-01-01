@@ -1,5 +1,5 @@
 import { moviesService } from "../../services/moviesService";
-import { ADD_MOVIE, REMOVE_MOVIE, SET_MOVIES, SET_FILTER_BY } from "../reducers/movie.reducer";
+import { ADD_MOVIE, REMOVE_MOVIE, SET_MOVIES, SET_FILTER_BY, PAUSE_MOVIE_TRAILER } from "../reducers/movie.reducer";
 import { store } from "../store";
 import { debounce } from "lodash";
 
@@ -49,6 +49,15 @@ export const setFilterBy = (filterby) => {
     };
     store.dispatch(action);
 };
+
+export function isMovieTrailerPaused(boolean) {
+    const action = {
+        type: PAUSE_MOVIE_TRAILER,
+        boolean
+    }
+    store.dispatch(action)
+}
+
 export const setDebouncedFilterBy = debounce((filterby) => {
     setFilterBy(filterby);
 }, 2000);

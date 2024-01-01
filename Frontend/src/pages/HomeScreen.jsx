@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import Nav from "../components/Nav";
 import Banner from "../components/Banner";
 import Row from "../components/Row";
-import { moviesService, requests } from "../services/moviesService";
+
+import { useState } from "react";
 import { useEffectUpdate } from "../customHooks/useEffectUpdate";
+
+import { moviesService, requests } from "../services/moviesService";
+
 import { useSelector } from "react-redux";
-import RenderIfVisible from "react-render-if-visible";
 
 export default function HomeScreen() {
   const filterBy = useSelector((state) => state.movieModule.filterby);
   const [movies, setMovies] = useState(null);
-  const mobileMode = useSelector((state) => state.userModule.mobileMode);
 
   useEffectUpdate(() => {
     loadMovies(filterBy.movie);
@@ -34,12 +34,7 @@ export default function HomeScreen() {
         ) : (
           <>
             {requests.map((req) => (
-              <Row
-                key={req.title}
-                title={req.title}
-                fetchUrl={req.fetch}
-                stayRendered={true}
-              />
+              <Row key={req.title} title={req.title} fetchUrl={req.fetch} />
             ))}
           </>
         )}

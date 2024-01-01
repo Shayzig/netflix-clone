@@ -1,10 +1,10 @@
 import React from "react";
-import Nav from "../components/Nav";
-import { useSelector } from "react-redux";
-import { logoutUser } from "../store/actions/user.actions";
-import { Link, useNavigate } from "react-router-dom";
-import { auth, signOut } from "../firebase";
 import Plans from "../components/plans";
+
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
+import { auth, signOut } from "../firebase";
 
 export default function Profile() {
   const user = useSelector((state) => state.userModule.loggedinUser);
@@ -17,7 +17,6 @@ export default function Profile() {
 
   return (
     <div className="profile">
-      <Nav />
       <div className="profile-body">
         <h1>Edit Profile</h1>
 

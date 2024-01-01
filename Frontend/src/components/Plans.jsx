@@ -1,6 +1,6 @@
-// Plans.jsx
-
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+
 import { db } from "../firebase";
 import {
   addDoc,
@@ -10,8 +10,9 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { useSelector } from "react-redux";
+
 import { loadStripe } from "@stripe/stripe-js";
+
 import { setIsUserSub } from "../store/actions/user.actions";
 
 export default function Plans() {
@@ -19,6 +20,14 @@ export default function Plans() {
   const [subscription, setSubscription] = useState(null);
 
   const user = useSelector((state) => state.userModule.loggedinUser);
+
+  useEffect(() => {
+    loadPlans();
+  }, []);
+
+  useEffect(() => {
+    loadSubscription();
+  }, [user.uid]);
 
   function loadPlans() {
     const q = query(collection(db, "products"), where("active", "==", true));
@@ -56,6 +65,13 @@ export default function Plans() {
     getDocs(subscriptionCollection)
       .then((querySnapshot) => {
         querySnapshot.forEach((subscriptionDoc) => {
+          console.log({
+            role: subscriptionDoc.data().role,
+            current_period_end:
+              subscriptionDoc.data().current_period_end.seconds,
+            current_period_start:
+              subscriptionDoc.data().current_period_start.seconds,
+          });
           setSubscription({
             role: subscriptionDoc.data().role,
             current_period_end:
@@ -69,14 +85,6 @@ export default function Plans() {
         console.error("Error loading subscription:", error);
       });
   }
-
-  useEffect(() => {
-    loadPlans();
-  }, []);
-
-  useEffect(() => {
-    loadSubscription();
-  }, [user.uid]);
 
   const loadCheckout = async (priceId) => {
     const userDocRef = collection(
@@ -132,6 +140,7 @@ export default function Plans() {
       if (!querySnapshot.empty) {
         querySnapshot.forEach((subscriptionDoc) => {
           const subscriptionData = subscriptionDoc.data();
+          console.log("s", subscriptionData);
           if (
             subscriptionData.current_period_start.seconds <=
               currentDateInSeconds &&
@@ -152,7 +161,6 @@ export default function Plans() {
 
   return (
     <div className="plans">
-      <button onClick={() => isUserSubs()}>click</button>
       {subscription && <p>Renewal date: {formatRenewalTime()}</p>}
       {Object.entries(products).map(([productId, productData]) => {
         const isCurrentPackage = productData.name

@@ -1,22 +1,27 @@
 import React, { memo, useEffect, useMemo, useState } from "react";
-import { IoCloseOutline } from "react-icons/io5";
-// import { moviesService } from "../services/moviesService";
-import { MuteIcon, VolumeHighIcon } from "@vidstack/react/icons";
-import { useSelector } from "react-redux";
+
 import Player from "./Player";
+
+import { useSelector } from "react-redux";
+
+import { moviesService } from "../services/moviesService";
+
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "react-lazy-load-image-component/src/effects/blur.css";
+
+import { IoCloseOutline } from "react-icons/io5";
+import { MuteIcon, VolumeHighIcon } from "@vidstack/react/icons";
 import AddIcon from "@mui/icons-material/Add";
 import DoneIcon from "@mui/icons-material/Done";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
+import { isMovieTrailerPaused } from "../store/actions/movie.action";
 
 const Card = memo(
   ({ movie, addMovieMyList, removeMovieMyList, mobileFilter }) => {
     const baseUrl = "https://image.tmdb.org/t/p/original/";
 
-    const mobileMode = useSelector((state) => state.userModule.mobileMode);
     const myList = useSelector((state) => state.movieModule.movies);
 
     const [isHoverd, setIsHoverd] = useState(false);
@@ -28,24 +33,22 @@ const Card = memo(
 
     const [timeoutId, setTimeoutId] = useState(null);
 
-    async function loadMovieTrailer(time = 5000) {
-      setTimeout(async () => {
-        // const fetchedMovieTrailer = await moviesService.getMovieTrailer(
-        //   movie.name || movie.title
-        // );
-
-        // setMovieTrailer(fetchedMovieTrailer);
-        // setIsEndTrailer(false);
-        setMovieTrailer("youtube/_cMxraX_5RE"); //for dev
-      }, time);
-    }
-
     useEffect(() => {
       if (isHoverd) {
-        console.log("for dev");
-        // loadMovieTrailer(4000);
+        loadMovieTrailer(4000);
       }
     }, [isHoverd]);
+
+    async function loadMovieTrailer(time = 5000) {
+      setTimeout(async () => {
+        const fetchedMovieTrailer = await moviesService.getMovieTrailer(
+          movie.name || movie.title
+        );
+
+        setMovieTrailer(fetchedMovieTrailer);
+        // setMovieTrailer("youtube/_cMxraX_5RE"); //for dev
+      }, time);
+    }
 
     function formatGenre(genreId) {
       switch (genreId) {
@@ -93,6 +96,7 @@ const Card = memo(
     }
 
     function handleMouseEnter(movieName) {
+      isMovieTrailerPaused(true);
       const id = setTimeout(() => {
         setIsFirstRun(false);
         setIsHoverd(movieName);
@@ -101,6 +105,7 @@ const Card = memo(
     }
 
     function handleMouseOut(value) {
+      isMovieTrailerPaused(false);
       setIsHoverd(false);
       clearTimeout(timeoutId);
       setMovieTrailer(value);

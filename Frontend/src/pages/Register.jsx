@@ -40,7 +40,7 @@ export default function Register() {
           <LoginSignUp
             userEmail={userEmail}
             userMode={userMode}
-            onSetUserMode={setUserMode}
+            setUserMode={setUserMode}
           />
         ) : (
           <>
