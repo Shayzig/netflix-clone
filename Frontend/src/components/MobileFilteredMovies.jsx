@@ -36,7 +36,7 @@ export default function MobileFilteredMovies() {
 
   function handleBack() {
     onChangeFilter({ movie: "" });
-    navigate("/netflix-clone");
+    navigate("/");
   }
 
   return (

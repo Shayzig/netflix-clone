@@ -124,7 +124,7 @@ function App() {
             {mobileMode ? <MobileNav /> : <Nav />}
             <Routes>
               <Route
-                path="netflix-clone"
+                path="/"
                 element={
                   <RouteGuard>
                     <HomeScreen />
@@ -139,7 +139,7 @@ function App() {
                   </RouteGuard>
                 }
               />
-              <Route path="netflix-clone/profile" element={<Profile />} />
+              <Route path="/profile" element={<Profile />} />
 
               {/* Mobile Routes*/}
               <Route
@@ -151,7 +151,7 @@ function App() {
                 }
               />
               <Route
-                path="netflix-clone/mobile-profile"
+                path="/mobile-profile"
                 element={
                   <RouteGuard>
                     <MobileProfile />

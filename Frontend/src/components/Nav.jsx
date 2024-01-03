@@ -40,7 +40,7 @@ export default function Nav() {
         style={{ backgroundColor: show ? "black" : "transparent" }}
       >
         <div className="left">
-          <Link to={"/netflix-clone"}>
+          <Link to={"/"}>
             <img
               className="logo"
               src="http://assets.stickpng.com/images/580b57fcd9996e24bc43c529.png"
@@ -52,7 +52,7 @@ export default function Nav() {
             <Link
               className={isClicked === "home" ? "clicked" : ""}
               onClick={() => setIsClicked("home")}
-              to={"/netflix-clone"}
+              to={"/"}
             >
               Home
             </Link>
@@ -92,7 +92,7 @@ export default function Nav() {
             />
           </div>
 
-          <Link to={"/netflix-clone/profile"}>
+          <Link to={"/profile"}>
             <img
               className="avatar"
               src="https://media.tenor.com/sgQ73oidu1wAAAAC/netflix-avatar-smile.gif"
