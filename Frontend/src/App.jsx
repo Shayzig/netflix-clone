@@ -11,7 +11,7 @@ import MobileNav from "./components/MobileNav";
 import MobileFooter from "./components/MobileFooter";
 import MobileProfile from "./components/MobileProfile";
 import MobileFilteredMovies from "./components/MobileFilteredMovies";
-
+// hellosadsa
 import {
   BrowserRouter as Router,
   Routes,
