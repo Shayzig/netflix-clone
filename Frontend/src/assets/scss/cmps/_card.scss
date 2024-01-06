@@ -1,7 +1,6 @@
 @keyframes scaleIn {
     0% {
         scale: 0.88;
-        transform: translate(-50%, -11.2vh);
         opacity: 0;
     }
     30% {
@@ -10,14 +9,12 @@
     }
     100% {
         scale: 1.2;
-        transform: translate(-50%, -11.2vh);
     }
 }
 
 @keyframes scaleOut {
     0% {
         scale: 1.2;
-        transform: translate(-50%, -11.2vh);
     }
 
     70% {
@@ -27,8 +24,13 @@
     100% {
         opacity: 0;
         scale: 0.88;
-        transform: translate(-50%, -11.2vh);
     }
+}
+
+.backdrop {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.29);
+    inset: 0;
 }
 
 .card-container {
@@ -53,10 +55,13 @@
     }
 
     .hover {
-        position: absolute;
-        inset: 0;
-        z-index: -1;
-        scale: 0;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        height: 67vh;
+        width: 100%;
+        transform: translateY(100%);
+        z-index: 998;
         border-radius: rem(6px);
         box-shadow: rgba(0, 0, 0, 0.818) 0px 3px 10px;
         background-color: #3c3c3cce;
@@ -64,9 +69,7 @@
         transition: 0.4s ease-in-out;
 
         &.show {
-            z-index: 999;
-            // position: fixed;
-            // scale: 1;
+            transform: translateY(0);
         }
 
         .image-video-container {
@@ -159,25 +162,26 @@
 
 @media screen and (min-width: $tablet-breakpoint) {
     .card-container {
+        position: relative;
         .poster {
             width: 17.5vw;
-            height: rem(200px);
+            height: rem(250px);
         }
 
         .hover {
+            transform: translateY(0);
+            transition: none;
+
+            position: absolute;
+            top: -11%;
+            left: -7.1%;
             height: max-content;
             width: 20vw;
-            top: 50%;
-            left: 50%;
             border-radius: 0.3rem;
             background-color: #181818;
-            transform-origin: top left;
             scale: 0;
-            z-index: 999;
-            transform: translate(-50%, -27%);
 
             &.show {
-                position: absolute;
                 animation: scaleIn 0.5s forwards;
             }
             &.not-shown {
@@ -190,7 +194,7 @@
                 }
 
                 img {
-                    height: rem(225px);
+                    width: 100%;
                     border-top-left-radius: rem(3px);
                     border-top-right-radius: rem(3px);
                 }

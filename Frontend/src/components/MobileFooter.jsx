@@ -4,40 +4,37 @@ import { RxAvatar } from "react-icons/rx";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export default function MobileFooter() {
-  const [selected, setSelectedRoute] = useState("");
+  const [selectedRoute, setSelectedRoute] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
 
   useLayoutEffect(() => {
-    if (location.pathname === "/netflix-clone/mobile-profile") {
+    if (location.pathname === "/mobile-profile") {
       setSelectedRoute("/mobile-profile");
     } else {
-      setSelectedRoute("");
+      setSelectedRoute("/");
     }
   });
 
-  console.log(location.pathname);
-
   function handleRoute(route) {
-    const baseUrl = `/netflix-clone`;
     setSelectedRoute(route);
-    route ? navigate(`${baseUrl + route} `) : navigate(`${baseUrl}`);
+    navigate(route);
   }
 
   return (
     <div className="mobile-footer">
-      <div className="footer-btn" onClick={() => handleRoute("")}>
-        <GoHomeFill className={selected === "" ? "selected" : ""} />
-        <p className={selected === "" ? "selected" : ""}>Home</p>
+      <div className="footer-btn" onClick={() => handleRoute("/")}>
+        <GoHomeFill className={selectedRoute === "/" ? "selected" : ""} />
+        <p className={selectedRoute === "/" ? "selected" : ""}>Home</p>
       </div>
       <div
         className="footer-btn"
         onClick={() => handleRoute("/mobile-profile")}
       >
         <RxAvatar
-          className={selected === "/mobile-profile" ? "selected" : ""}
+          className={selectedRoute === "/mobile-profile" ? "selected" : ""}
         />
-        <p className={selected === "/mobile-profile" ? "selected" : ""}>
+        <p className={selectedRoute === "/mobile-profile" ? "selected" : ""}>
           My Netflix
         </p>
       </div>

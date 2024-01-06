@@ -91,37 +91,39 @@ const Row = memo(({ title, fetchUrl, filteredMovies = null, mobileFilter }) => {
         onMouseLeave={() => setIsControls(false)}
       >
         <div className="row">
-          <div className={`slider-action left ${!isControls ? "none" : ""}`}>
-            <AiOutlineLeft
-              color="white"
-              size={"40px"}
-              onClick={() => handleDirection("left")}
-            />
-          </div>
+          {filteredMovies?.length > 5 && (
+            <div className={`slider-action left ${!isControls ? "none" : ""}`}>
+              <AiOutlineLeft
+                color="white"
+                size={"40px"}
+                onClick={() => handleDirection("left")}
+              />
+            </div>
+          )}
 
           <div
             className={`${mobileFilter ? "col" : "slider"} `}
             style={{ left: `${scroll}vw` }}
           >
-            {movies?.slice(0, 18).map((movie, index) => (
+            {movies?.slice(0, 18).map((movie) => (
               <Card
                 addMovieMyList={onAddMovie}
                 removeMovieMyList={onRemoveMovie}
                 key={movie.id}
-                index={index}
                 movie={movie}
                 mobileFilter={mobileFilter}
               />
             ))}
           </div>
-
-          <div className={`slider-action right ${!isControls ? "none" : ""}`}>
-            <AiOutlineRight
-              color="white"
-              size={"40px"}
-              onClick={() => handleDirection("right")}
-            />
-          </div>
+          {filteredMovies?.length > 5 && (
+            <div className={`slider-action right ${!isControls ? "none" : ""}`}>
+              <AiOutlineRight
+                color="white"
+                size={"40px"}
+                onClick={() => handleDirection("right")}
+              />
+            </div>
+          )}
         </div>
       </div>
     </>

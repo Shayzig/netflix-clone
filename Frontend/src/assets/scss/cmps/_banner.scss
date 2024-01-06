@@ -53,6 +53,9 @@
         .text-container {
             display: flex;
             justify-content: center;
+            width: 90%;
+            margin: auto;
+            text-align: center;
 
             .title {
                 font-family: netflix-med;
@@ -159,6 +162,9 @@
                 flex-direction: column;
                 overflow: hidden;
                 height: max-content;
+                // width: max-content;
+                margin: 0;
+                text-align: left;
 
                 .title {
                     padding-inline-start: 3vw;
@@ -170,7 +176,7 @@
                     transition: 1.2s;
 
                     &.none {
-                        transform: translateY(240%) translateX(-20%);
+                        transform: translateY(210%) translateX(-20%);
                         scale: (0.7);
                     }
                 }
@@ -218,8 +224,8 @@
                         width: max-content;
 
                         svg {
-                            height: 45;
-                            width: 45;
+                            height: 3vh;
+                            width: 3vw;
                         }
                     }
                     & > :nth-child(1) {

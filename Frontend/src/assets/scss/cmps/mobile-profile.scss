@@ -1,10 +1,47 @@
+.backdrop {
+    position: fixed;
+    z-index: 998;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.667);
+}
+
+.profile-details-container {
+    position: fixed;
+    z-index: 999;
+    bottom: 0;
+    width: 100%;
+    background-color: rgb(70, 68, 68);
+    height: 75vh;
+    border-top-left-radius: rem(15px);
+    border-top-right-radius: rem(15px);
+    transition: 0.5s;
+    transform: translateY(200%);
+    color: white;
+
+    &.show {
+        transform: translateY(0);
+        transform-origin: bottom;
+    }
+
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: rem(18px);
+    }
+}
+
 .mobile-profile {
+    position: relative;
     display: flex;
     flex-direction: column;
     color: white;
-    margin-block-start: 30%;
+    overflow-y: hidden;
+    transition: 0.5s;
 
     .user-container {
+        margin-block-start: 30%;
         display: flex;
         flex-direction: column;
         align-items: center;

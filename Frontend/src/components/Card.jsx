@@ -17,12 +17,14 @@ import PlayCircleIcon from "@mui/icons-material/PlayCircle";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
 import { isMovieTrailerPaused } from "../store/actions/movie.action";
+import { useEffectUpdate } from "../customHooks/useEffectUpdate";
 
 const Card = memo(
   ({ movie, addMovieMyList, removeMovieMyList, mobileFilter }) => {
     const baseUrl = "https://image.tmdb.org/t/p/original/";
 
     const myList = useSelector((state) => state.movieModule.movies);
+    const isMobileMode = useSelector((state) => state.userModule.mobileMode);
 
     const [isHoverd, setIsHoverd] = useState(false);
     const [isFirstRun, setIsFirstRun] = useState(true);
@@ -44,7 +46,6 @@ const Card = memo(
         const fetchedMovieTrailer = await moviesService.getMovieTrailer(
           movie.name || movie.title
         );
-
         setMovieTrailer(fetchedMovieTrailer);
         // setMovieTrailer("youtube/_cMxraX_5RE"); //for dev
       }, time);
@@ -123,101 +124,123 @@ const Card = memo(
       return myList?.some((m) => m.id === movie.id);
     }, [myList]);
 
-    useMemo(() => {
-      const body = document.querySelector("body");
+    // useMemo(() => {
+    //   const body = document.querySelector("body");
 
-      if (isHoverd) {
-        body.style.overflowX = "clip";
+    //   if (isHoverd) {
+    //     body.style.overflowX = "clip";
+    //   } else {
+    //     body.style.overflow = "auto";
+    //   }
+
+    //   return () => {
+    //     body.style.overflow = "auto";
+    //   };
+    // }, [isHoverd]);
+
+    useEffectUpdate(() => {
+      if (isHoverd && isMobileMode) {
+        document.body.style.overflow = "hidden";
       } else {
-        body.style.overflow = "auto";
+        document.body.style.overflow = "auto";
       }
 
       return () => {
-        body.style.overflow = "auto";
+        document.body.style.overflow = "auto";
       };
     }, [isHoverd]);
 
     return (
-      <div
-        className="card-container"
-        onMouseEnter={() => handleMouseEnter(movie.name || movie.title)}
-        onMouseLeave={() => handleMouseOut(null)}
-      >
-        <img
-          src={`${baseUrl + movie.backdrop_path}`}
-          effect="blur"
-          className={`poster ${mobileFilter ? "mobile" : ""}`}
-        />
+      <>
+        {isHoverd && isMobileMode && (
+          <div className="backdrop" onClick={() => handleMouseOut(null)}></div>
+        )}
 
         <div
-          className={`hover ${
-            isHoverd ? "show" : isFirstRun ? "" : "not-shown"
-          }`}
+          className={"card-container"}
+          onMouseEnter={() => handleMouseEnter(movie.name || movie.title)}
+          onMouseLeave={!isMobileMode ? () => handleMouseOut(null) : null}
         >
-          <div className="image-video-container">
-            <IoCloseOutline
-              className="close-btn"
-              onClick={() => handleMouseOut(null)}
-            />
-            {!movieTrailer && (
-              <LazyLoadImage src={`${baseUrl + movie.backdrop_path}`} alt="" />
-            )}
-            {movieTrailer && (
-              <>
-                <Player
-                  movieTrailer={movieTrailer}
-                  isMuted={isMuted}
-                  onEndedTrailer={onEndedTrailer}
-                />
-                <div className="trailer-btns">
-                  <button
-                    className="video-btn toggle-mute"
-                    onClick={handleToggleMute}
-                  >
-                    {isMuted ? <MuteIcon /> : <VolumeHighIcon />}
-                  </button>
-                </div>
-              </>
-            )}
-          </div>
+          <img
+            src={`${baseUrl + movie.backdrop_path}`}
+            effect="blur"
+            className={`poster ${mobileFilter ? "mobile" : ""}`}
+          />
 
-          <h1 className="title">{movie.title || movie.name}</h1>
-
-          <div className="hover-btns">
-            <div className="left">
-              <PlayCircleIcon className="play-btn" />
-              {!isOnMyList ? (
-                <AddIcon
-                  onClick={() => addMovieMyList(movie)}
-                  className="plus-btn"
-                />
-              ) : (
-                <DoneIcon
-                  onClick={() => removeMovieMyList(movie.id)}
-                  className="v-btn"
+          <div
+            className={`hover ${
+              isHoverd ? "show" : isFirstRun ? "" : "not-shown"
+            }`}
+          >
+            <div className="image-video-container">
+              <IoCloseOutline
+                className="close-btn"
+                onClick={() => handleMouseOut(null)}
+              />
+              {!movieTrailer && (
+                <LazyLoadImage
+                  src={`${baseUrl + movie.backdrop_path}`}
+                  alt=""
+                  effect="blur"
                 />
               )}
-              {isLiked ? (
-                <ThumbUpIcon
-                  onClick={() => setIsLiked(false)}
-                  className="unlike-btn"
-                />
-              ) : (
-                <ThumbDownAltIcon
-                  onClick={() => setIsLiked(true)}
-                  className="like-btn"
-                />
+              {movieTrailer && (
+                <>
+                  <Player
+                    movieTrailer={movieTrailer}
+                    isMuted={isMuted}
+                    onEndedTrailer={onEndedTrailer}
+                  />
+                  <div className="trailer-btns">
+                    <button
+                      className="video-btn toggle-mute"
+                      onClick={handleToggleMute}
+                    >
+                      {isMuted ? <MuteIcon /> : <VolumeHighIcon />}
+                    </button>
+                  </div>
+                </>
               )}
             </div>
-          </div>
 
-          <div className="genre-container">
-            {movie?.genre_ids.map((genreId, i) => (
-              <h4 key={genreId}>{formatGenre(genreId)}</h4>
-            ))}
+            <h1 className="title">{movie.title || movie.name}</h1>
+
+            <div className="hover-btns">
+              <div className="left">
+                <PlayCircleIcon className="play-btn" />
+                {!isOnMyList ? (
+                  <AddIcon
+                    onClick={() => addMovieMyList(movie)}
+                    className="plus-btn"
+                  />
+                ) : (
+                  <DoneIcon
+                    onClick={() => removeMovieMyList(movie.id)}
+                    className="v-btn"
+                  />
+                )}
+                {isLiked ? (
+                  <ThumbUpIcon
+                    onClick={() => setIsLiked(false)}
+                    className="unlike-btn"
+                  />
+                ) : (
+                  <ThumbDownAltIcon
+                    onClick={() => setIsLiked(true)}
+                    className="like-btn"
+                  />
+                )}
+              </div>
+            </div>
+
+            <div className="genre-container">
+              {movie?.genre_ids.map((genreId, i) => (
+                <h4 key={genreId}>{formatGenre(genreId)}</h4>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
 );

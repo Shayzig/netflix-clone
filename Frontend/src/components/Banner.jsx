@@ -21,22 +21,23 @@ export default function Banner() {
   const [isEndTrailer, setIsEndTrailer] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [isDescription, setIsDescription] = useState(true);
+  const [randomNum, setRandomNum] = useState(null);
 
   const mobileMode = useSelector((state) => state.userModule.mobileMode);
   const myList = useSelector((state) => state.movieModule.movies);
 
+  useEffect(() => {
+    loadBannerMovie();
+  }, []);
+
   useEffectUpdate(() => {
     if (!mobileMode) {
-      // console.log("loaded trailer desktop");
-      loadTrailerMovie();
+      console.log("loaded trailer desktop");
+      // loadTrailerMovie();
     } else {
       getAverageColor();
     }
   }, [movie]);
-
-  useEffect(() => {
-    loadBannerMovie();
-  }, []);
 
   async function getAverageColor() {
     try {
@@ -65,14 +66,39 @@ export default function Banner() {
 
   async function loadBannerMovie() {
     try {
+      const demoMovies = [
+        {
+          adult: false,
+          backdrop_path: "/bmlkLCjrIWnnZzdAQ4uNPG9JFdj.jpg",
+          genre_ids: [35, 10751, 14],
+          id: 787699,
+          original_title: "Wonka",
+          overview:
+            "Willy Wonka – chock-full of ideas and determined to change the world one delectable bite at a time – is proof that the best things in life begin with a dream, and if you’re lucky enough to meet Willy Wonka, anything is possible.",
+          title: "Wonka",
+        },
+        {
+          adult: true,
+          backdrop_path: "/bmlkLCjrIWnnZzdAQ4uNPG9JFdj.jpg",
+          genre_ids: [35, 10751, 14],
+          id: 787699,
+          original_title: "Wonka",
+          overview:
+            "Willy Wonka – chock-full of ideas and determined to change the world one delectable bite at a time – is proof that the best things in life begin with a dream, and if you’re lucky enough to meet Willy Wonka, anything is possible.",
+          title: "Donka",
+        },
+      ];
       const movies = await moviesService.getMoviesByGenre("fetchTopRated");
-      let randomNum = Math.floor(Math.random() * movies.length - 1);
+      let randomNum = Math.floor(Math.random() * movies.length);
       // const selectedMovie = movies[6]; // for dev
       const selectedMovie = movies[randomNum];
       setMovie(selectedMovie);
+      // setMovie(demoMovies[randomNum]);
     } catch (error) {
       console.error("Error loading banner movie:", error);
     }
+    // };
+    // };
   }
 
   async function loadTrailerMovie(time = 6000) {
@@ -169,7 +195,7 @@ export default function Banner() {
           <div className="buttons">
             <div className="movie-btns">
               <button className="banner-btn">
-                <PlayIcon />
+                <PlayIcon size={100} />
                 <span onClick={() => pauseMovieTrailer()}>Play</span>
               </button>
 
@@ -194,30 +220,32 @@ export default function Banner() {
               )}
             </div>
 
-            <div className="player-btns">
-              {isEndTrailer ? (
-                <button
-                  className="video-btn replay"
-                  onClick={() => loadTrailerMovie(0)}
-                >
-                  <ReplayIcon size={38} />
-                </button>
-              ) : (
-                <>
+            {movieTrailer && (
+              <div className="player-btns">
+                {isEndTrailer ? (
                   <button
-                    className="video-btn toggle-mute"
-                    onClick={handleToggleMute}
+                    className="video-btn replay"
+                    onClick={() => loadTrailerMovie(0)}
                   >
-                    {isMuted ? (
-                      <MuteIcon size={38} />
-                    ) : (
-                      <VolumeHighIcon size={38} />
-                    )}
+                    <ReplayIcon size={38} />
                   </button>
-                </>
-              )}
-              <div className="age">{isAdultMovie()}</div>
-            </div>
+                ) : (
+                  <>
+                    <button
+                      className="video-btn toggle-mute"
+                      onClick={handleToggleMute}
+                    >
+                      {isMuted ? (
+                        <MuteIcon size={38} />
+                      ) : (
+                        <VolumeHighIcon size={38} />
+                      )}
+                    </button>
+                  </>
+                )}
+                <div className="age">{isAdultMovie()}</div>
+              </div>
+            )}
           </div>
         </div>
         {!mobileMode && <div className="fade-bottom"></div>}

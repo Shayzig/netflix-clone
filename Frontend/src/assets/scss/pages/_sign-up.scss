@@ -17,7 +17,7 @@
         }
 
         button {
-            padding: rem(16px) rem(20px);
+            padding: rem(18px) rem(24px);
             color: #fff;
             font-size: 1rem;
             background-color: #e50914;
@@ -26,6 +26,10 @@
             font-weight: 600;
             cursor: pointer;
             margin-block-start: rem(20px);
+
+            &.loading {
+                background-color: transparent;
+            }
         }
 
         input {

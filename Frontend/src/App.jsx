@@ -16,6 +16,7 @@ import {
   Routes,
   Route,
   Navigate,
+  useNavigate,
 } from "react-router-dom";
 
 // Firebase
@@ -35,10 +36,10 @@ import {
   setIsUserSub,
   setMobileMode,
 } from "./store/actions/user.actions";
+import HomeScreenWithAuth from "./pages/HomeScreen";
 
 function App() {
   const user = useSelector((state) => state.userModule.loggedinUser);
-  const isUserSub = useSelector((state) => state.userModule.isUserSub);
 
   const size = useWindowSize();
 
@@ -51,16 +52,15 @@ function App() {
           uid: userAuth.uid,
           email: userAuth.email,
         });
+        checkUserSubs(userAuth.uid);
+        getMyListMovies();
       } else {
         logoutUser();
       }
       return unsbscribe;
     });
-  }, [auth.currentUser]);
-
-  useEffect(() => {
-    getMyListMovies();
   }, []);
+  // auth.currentUser
 
   useEffect(() => {
     if (size.width < 600) {
@@ -69,12 +69,6 @@ function App() {
       setMobileMode(false);
     }
   }, [size]);
-
-  useEffectUpdate(() => {
-    if (user) {
-      checkUserSubs(user.uid);
-    }
-  }, [user]);
 
   async function checkUserSubs(userUid) {
     try {
@@ -108,12 +102,6 @@ function App() {
     }
   }
 
-  function RouteGuard({ children }) {
-    if (!isUserSub && isUserSub !== null)
-      return <Navigate to="/netflix-clone/profile" />;
-    return <>{children}</>;
-  }
-
   return (
     <div className="app">
       <Router>
@@ -123,41 +111,13 @@ function App() {
           <>
             {mobileMode ? <MobileNav /> : <Nav />}
             <Routes>
-              <Route
-                path="/"
-                element={
-                  <RouteGuard>
-                    <HomeScreen />
-                  </RouteGuard>
-                }
-              />
-              <Route
-                path="/my-list"
-                element={
-                  <RouteGuard>
-                    <MyList />
-                  </RouteGuard>
-                }
-              />
+              <Route path="/" element={<HomeScreenWithAuth />} />
+              <Route path="/my-list" element={<MyList />} />
               <Route path="/profile" element={<Profile />} />
 
               {/* Mobile Routes*/}
-              <Route
-                path="/my-search"
-                element={
-                  <RouteGuard>
-                    <MobileFilteredMovies />
-                  </RouteGuard>
-                }
-              />
-              <Route
-                path="/mobile-profile"
-                element={
-                  <RouteGuard>
-                    <MobileProfile />
-                  </RouteGuard>
-                }
-              />
+              <Route path="/my-search" element={<MobileFilteredMovies />} />
+              <Route path="/mobile-profile" element={<MobileProfile />} />
             </Routes>
             {mobileMode && <MobileFooter />}
           </>

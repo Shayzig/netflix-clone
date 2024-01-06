@@ -1,8 +1,12 @@
 .plans {
+    margin-block-start: 10px;
+    p {
+        margin-block-start: 10px;
+    }
     .plans-plan {
         display: flex;
         justify-content: space-between;
-        padding: rem(20px);
+        padding: rem(20px) 0;
         opacity: 0.8;
 
         &.disabled {
@@ -23,6 +27,37 @@
             font-weight: 600;
             border: none;
             cursor: pointer;
+        }
+    }
+}
+
+@media screen and (min-width: $tablet-breakpoint) {
+    .plans {
+        .plans-plan {
+            display: flex;
+            justify-content: space-between;
+            padding: rem(20px);
+            opacity: 0.8;
+
+            &.disabled {
+                button {
+                    background-color: gray;
+                }
+            }
+
+            &:hover {
+                opacity: 1;
+            }
+
+            button {
+                padding: rem(10px) rem(20px);
+                font-size: 1rem;
+                color: #fff;
+                background-color: #e50914;
+                font-weight: 600;
+                border: none;
+                cursor: pointer;
+            }
         }
     }
 }

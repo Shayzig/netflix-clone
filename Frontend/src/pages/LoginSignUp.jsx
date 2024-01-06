@@ -8,6 +8,7 @@ import {
 import { useForm } from "../customHooks/useForm";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Loader from "../components/Loader";
 
 export default function LoginSignUp({ userEmail, userMode, setUserMode }) {
   const [register, userAuth] = useForm(userEmail);
@@ -39,12 +40,14 @@ export default function LoginSignUp({ userEmail, userMode, setUserMode }) {
     setIsLoading(true);
     setIsUserAuthError(null);
     try {
-      await createUserWithEmailAndPassword(
-        auth,
-        userAuth.email,
-        userAuth.password
-      );
-      navigate("/netflix-clone/profile");
+      setTimeout(async () => {
+        await createUserWithEmailAndPassword(
+          auth,
+          userAuth.email,
+          userAuth.password
+        );
+        navigate("/profile");
+      }, 2000);
     } catch (error) {
       setIsUserAuthError(error.message);
     } finally {
@@ -107,7 +110,9 @@ export default function LoginSignUp({ userEmail, userMode, setUserMode }) {
                   Sign Up
                 </button>
               ) : (
-                <button>Loading...</button>
+                <button className="loading">
+                  <Loader />
+                </button>
               )}
             </>
           ) : (
@@ -115,7 +120,9 @@ export default function LoginSignUp({ userEmail, userMode, setUserMode }) {
               {!isLoading ? (
                 <button type="submit">Sign In</button>
               ) : (
-                <button>Loading...</button>
+                <button className="loading">
+                  <Loader />
+                </button>
               )}
 
               <button type="submit" onClick={(e) => signIn(e, "check")}>

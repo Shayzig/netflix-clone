@@ -1,14 +1,22 @@
+import React, { useState } from "react";
+import { Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useEffectUpdate } from "../customHooks/useEffectUpdate";
 import Banner from "../components/Banner";
+import { moviesService, requests } from "../services/moviesService";
 import Row from "../components/Row";
 
-import { useState } from "react";
-import { useEffectUpdate } from "../customHooks/useEffectUpdate";
+const withAuth = (Component) => (props) => {
+  const isUserSub = useSelector((state) => state.userModule.isUserSub);
 
-import { moviesService, requests } from "../services/moviesService";
+  if (!isUserSub && isUserSub !== null) {
+    return <Navigate to="/profile" />;
+  }
 
-import { useSelector } from "react-redux";
+  return <Component {...props} />;
+};
 
-export default function HomeScreen() {
+const HomeScreen = () => {
   const filterBy = useSelector((state) => state.movieModule.filterby);
   const [movies, setMovies] = useState(null);
 
@@ -41,4 +49,8 @@ export default function HomeScreen() {
       </div>
     </div>
   );
-}
+};
+
+const HomeScreenWithAuth = withAuth(HomeScreen);
+
+export default HomeScreenWithAuth;

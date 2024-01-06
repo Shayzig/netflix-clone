@@ -65,13 +65,6 @@ export default function Plans() {
     getDocs(subscriptionCollection)
       .then((querySnapshot) => {
         querySnapshot.forEach((subscriptionDoc) => {
-          console.log({
-            role: subscriptionDoc.data().role,
-            current_period_end:
-              subscriptionDoc.data().current_period_end.seconds,
-            current_period_start:
-              subscriptionDoc.data().current_period_start.seconds,
-          });
           setSubscription({
             role: subscriptionDoc.data().role,
             current_period_end:

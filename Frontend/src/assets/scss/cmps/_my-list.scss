@@ -1,12 +1,8 @@
-.my-list-container{
-    padding: 4vh 3vw ;
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    gap: rem(40px);
-    margin-block-start: 50px;
+.my-list-container {
+    padding: 14vh 3vw;
 
     .list-title {
+        padding-inline-start: rem(28px);
         font-size: 2vw;
         font-family: netflix;
         color: white;

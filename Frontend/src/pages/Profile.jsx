@@ -1,18 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import Plans from "../components/plans";
 
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { auth, signOut } from "../firebase";
+import Loader from "../components/Loader";
 
 export default function Profile() {
+  const [isLoading, setIsLoading] = useState(false);
   const user = useSelector((state) => state.userModule.loggedinUser);
   const navigate = useNavigate();
 
   function onSignOut() {
-    signOut(auth);
-    navigate("/netflix-clone");
+    setIsLoading(true);
+    setTimeout(() => {
+      signOut(auth);
+      setIsLoading(false);
+      navigate("/");
+    }, 2000);
   }
 
   return (
@@ -31,12 +37,18 @@ export default function Profile() {
             <div className="profile-plans">
               <h3>Plans</h3>
               <Plans />
-              <button
-                onClick={() => onSignOut()}
-                className="profile-signout-btn"
-              >
-                Sign Out
-              </button>
+              {isLoading ? (
+                <button className="profile-signout-btn loading">
+                  <Loader />
+                </button>
+              ) : (
+                <button
+                  onClick={() => onSignOut()}
+                  className="profile-signout-btn"
+                >
+                  Sign Out
+                </button>
+              )}
             </div>
           </div>
         </div>
