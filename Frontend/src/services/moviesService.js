@@ -1,10 +1,11 @@
 import axios from "axios";
 import { httpService } from './http.service.js'
+import { forEach } from "lodash";
 
 export const moviesService = {
     getMoviesByGenre,
     getMovieTrailer,
-    getMovies,
+    getFilteredMovies,
     query,
     getById,
     save,
@@ -12,7 +13,7 @@ export const moviesService = {
 }
 window.cs = moviesService
 
-const cacheKey = 'caching'
+const cacheKey = 'movies'
 let cache = localStorage.getItem(cacheKey)
 cache = cache ? JSON.parse(cache) : {}
 
@@ -21,59 +22,37 @@ const baseURL = 'https://api.themoviedb.org/3'
 
 
 export const requests = [
-    { fetch: `fetchTrending`, title: 'Tranding Now' },
-    { fetch: `fetchNetflixOriginals`, title: 'NETFLIX ORIGINALS' },
-    { fetch: `fetchTopRated`, title: 'Top Rated' },
-    { fetch: `fetchActionMovies`, title: 'Action Movies' },
-    { fetch: `fetchComedyMovies`, title: 'Comedy Movies' },
-    { fetch: `fetchHorrowMovies`, title: 'Horror Movies' },
-    { fetch: `fetchRomanceMovies`, title: 'Romance Movies' },
-    { fetch: `fetchDocumentariesMovies`, title: 'Documentaries Movies' },
+    { title: 'Tranding Now', fetchUrl: `/trending/all/week?api_key=${API_KEY}&language=en-U` },
+    { title: 'NETFLIX ORIGINALS', fetchUrl: `/discover/tv?api_key=${API_KEY}&woth_networks=213` },
+    { title: 'Top Rated', fetchUrl: `/movie/top_rated?api_key=${API_KEY}&language=en-US` },
+    { title: 'Action Movies', fetchUrl: `/discover/movie?api_key=${API_KEY}&with_genres=28` },
+    { title: 'Comedy Movies', fetchUrl: `/discover/movie?api_key=${API_KEY}&with_genres=35` },
+    { title: 'Horror Movies', fetchUrl: `/discover/movie?api_key=${API_KEY}&with_genres=27` },
+    { title: 'Romance Movies', fetchUrl: `/discover/movie?api_key=${API_KEY}&with_genres=10749` },
+    { title: 'Documentaries Movies', fetchUrl: `/discover/movie?api_key=${API_KEY}&with_genres=99` },
 ]
 
-export async function getMoviesByGenre(moviesGenre) {
-    let req = null
-    switch (moviesGenre) {
-        case 'fetchTrending':
-            req = `/trending/all/week?api_key=${API_KEY}&language=en-US`
-            break;
-        case 'fetchNetflixOriginals':
-            req = `/discover/tv?api_key=${API_KEY}&woth_networks=213`
-            break;
-        case 'fetchTopRated':
-            req = `/movie/top_rated?api_key=${API_KEY}&language=en-US`
-            break;
-        case 'fetchActionMovies':
-            req = `/discover/movie?api_key=${API_KEY}&with_genres=28`
-            break;
-        case 'fetchComedyMovies':
-            req = `/discover/movie?api_key=${API_KEY}&with_genres=35`
-            break;
-        case 'fetchHorrowMovies':
-            req = `/discover/movie?api_key=${API_KEY}&with_genres=27`
-            break;
-        case 'fetchRomanceMovies':
-            req = `/discover/movie?api_key=${API_KEY}&with_genres=10749`
-            break;
-        case 'fetchDocumentariesMovies':
-            req = `/discover/movie?api_key=${API_KEY}&with_genres=99`
-            break;
-
-        default:
-            req = `/tending/all/week?api_key=${API_KEY}&language=en-US`
-            break;
+export async function getMoviesByGenre() {
+    if (cache['moviesByGenre']) {
+        console.log('return from cache - moviesByGenre ')
+        return cache['moviesByGenre']
     }
 
-    if (cache[moviesGenre]) {
-        // console.log('return from cache ' + moviesGenre)
-        return cache[moviesGenre]
-    }
-    const url = `${baseURL + req}`
-    const res = await axios.get(url)
+    let res = {};
+    try {
+        await Promise.all(requests.map(async (req) => {
+            const url = `${baseURL + req.fetchUrl}`;
+            const resByGenre = await axios.get(url);
+            res[req.title] = resByGenre.data.results;
+        }));
 
-    cache[moviesGenre] = res.data.results
-    localStorage.setItem(cacheKey, JSON.stringify(cache))
-    return res.data.results
+        cache['moviesByGenre'] = res;
+        localStorage.setItem(cacheKey, JSON.stringify(cache));
+
+        return res;
+    } catch (error) {
+        console.error('Error fetching moviesByGenre:', error);
+    }
 }
 
 export async function getMovieTrailer(movieName) {
@@ -100,7 +79,7 @@ export async function getMovieTrailer(movieName) {
     }
 }
 
-export async function getMovies(filterBy) {
+export async function getFilteredMovies(filterBy) {
     const url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${filterBy}`;
 
     if (cache[filterBy]) {

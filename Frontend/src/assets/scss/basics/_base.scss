@@ -68,6 +68,7 @@ input {
 .home-screen {
     .rows-container {
         margin-block-start: 6%;
+        margin-block-end: 200px;
     }
     .drop {
         position: fixed;
@@ -112,6 +113,7 @@ input {
                 position: relative;
                 z-index: 998;
                 margin-block-start: -18%;
+                margin-block-end: 5%;
                 overflow-x: clip;
             }
         }

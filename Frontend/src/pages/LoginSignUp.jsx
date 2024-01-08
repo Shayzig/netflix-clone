@@ -15,6 +15,7 @@ export default function LoginSignUp({ userEmail, userMode, setUserMode }) {
   const [isUserAuthError, setIsUserAuthError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const user = useSelector((state) => state.userModule.loggedinUser);
+  const mobileMode = useSelector((state) => state.userModule.mobileMode);
 
   const navigate = useNavigate();
 
@@ -29,6 +30,7 @@ export default function LoginSignUp({ userEmail, userMode, setUserMode }) {
       }
       await signInWithEmailAndPassword(auth, userAuth.email, userAuth.password);
     } catch (error) {
+      console.log(error);
       setIsUserAuthError(error.message);
     } finally {
       setIsLoading(false);
@@ -46,12 +48,15 @@ export default function LoginSignUp({ userEmail, userMode, setUserMode }) {
           userAuth.email,
           userAuth.password
         );
-        navigate("/profile");
+        setIsLoading(false);
+        if (mobileMode) {
+          navigate("/mobile-profile");
+        } else {
+          navigate("/profile");
+        }
       }, 2000);
     } catch (error) {
       setIsUserAuthError(error.message);
-    } finally {
-      setIsLoading(false);
     }
   }
 
@@ -66,6 +71,7 @@ export default function LoginSignUp({ userEmail, userMode, setUserMode }) {
       invalidUserAuth: isUserAuthError.match(/invalid-login-credentials/gi),
       emailInUsed: isUserAuthError.match(/email-already-in-use/gi),
       invalidPasswordLength: isUserAuthError.match(/weak-password/gi),
+      noPasswordEntered: isUserAuthError.match(/missing-password/gi),
     };
 
     switch (true) {
@@ -74,7 +80,9 @@ export default function LoginSignUp({ userEmail, userMode, setUserMode }) {
       case errorList.invalidUserAuth !== null:
         return `Sorry, password or email is incorrect.`;
       case errorList.invalidPasswordLength !== null:
-        return ` Password should be at least 6 characters.`;
+        return `Password should be at least 6 characters.`;
+      case errorList.noPasswordEntered !== null:
+        return `Please enter a password.`;
 
       default:
         return "Please try again later";

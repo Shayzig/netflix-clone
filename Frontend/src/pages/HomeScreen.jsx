@@ -3,14 +3,19 @@ import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffectUpdate } from "../customHooks/useEffectUpdate";
 import Banner from "../components/Banner";
-import { moviesService, requests } from "../services/moviesService";
+import { moviesService } from "../services/moviesService";
 import Row from "../components/Row";
 
 const withAuth = (Component) => (props) => {
   const isUserSub = useSelector((state) => state.userModule.isUserSub);
+  const mobileMode = useSelector((state) => state.userModule.mobileMode);
 
   if (!isUserSub && isUserSub !== null) {
-    return <Navigate to="/profile" />;
+    return mobileMode ? (
+      <Navigate to="/mobile-profile" />
+    ) : (
+      <Navigate to="/profile" />
+    );
   }
 
   return <Component {...props} />;
@@ -18,15 +23,16 @@ const withAuth = (Component) => (props) => {
 
 const HomeScreen = () => {
   const filterBy = useSelector((state) => state.movieModule.filterby);
+  const moviesByGenre = useSelector((state) => state.movieModule.moviesByGenre);
   const [movies, setMovies] = useState(null);
 
   useEffectUpdate(() => {
-    loadMovies(filterBy.movie);
+    loadFilteredMovies(filterBy.movie);
   }, [filterBy]);
 
-  async function loadMovies(filterBy) {
+  async function loadFilteredMovies(filterBy) {
     try {
-      const movies = await moviesService.getMovies(filterBy);
+      const movies = await moviesService.getFilteredMovies(filterBy);
       setMovies(movies);
     } catch (error) {
       console.log(error);
@@ -35,16 +41,14 @@ const HomeScreen = () => {
 
   return (
     <div className="home-screen">
-      <Banner />
+      <Banner moviesByGenre={moviesByGenre} />
       <div className="rows-container">
         {filterBy.movie !== "" ? (
           <Row title="Your search" filteredMovies={movies} />
         ) : (
-          <>
-            {requests.map((req) => (
-              <Row key={req.title} title={req.title} fetchUrl={req.fetch} />
-            ))}
-          </>
+          Object.entries(moviesByGenre)?.map(([key, value]) => (
+            <Row key={key} title={key} data={value} />
+          ))
         )}
       </div>
     </div>

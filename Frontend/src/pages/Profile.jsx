@@ -6,19 +6,25 @@ import { useNavigate } from "react-router-dom";
 
 import { auth, signOut } from "../firebase";
 import Loader from "../components/Loader";
+import { logoutUser } from "../store/actions/user.actions";
 
 export default function Profile() {
   const [isLoading, setIsLoading] = useState(false);
   const user = useSelector((state) => state.userModule.loggedinUser);
   const navigate = useNavigate();
 
-  function onSignOut() {
-    setIsLoading(true);
-    setTimeout(() => {
-      signOut(auth);
-      setIsLoading(false);
-      navigate("/");
-    }, 2000);
+  async function onSignOut() {
+    try {
+      setIsLoading(true);
+      setTimeout(async () => {
+        await signOut(auth);
+        logoutUser();
+        setIsLoading(false);
+        navigate("/");
+      }, 2000);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (

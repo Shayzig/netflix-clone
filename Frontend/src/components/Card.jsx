@@ -28,27 +28,32 @@ const Card = memo(
 
     const [isHoverd, setIsHoverd] = useState(false);
     const [isFirstRun, setIsFirstRun] = useState(true);
-    const [isLiked, setIsLiked] = useState(false);
+    const [isLiked, setIsLiked] = useState(Math.random() > 0.5 ? true : false);
 
     const [movieTrailer, setMovieTrailer] = useState(null);
     const [isMuted, setIsMuted] = useState(true);
 
-    const [timeoutId, setTimeoutId] = useState(null);
+    const [hoverTimeoutId, setHoverTimeoutId] = useState(null);
+    const [trailerTimeoutId, setTrailerTimeoutId] = useState(null);
 
-    useEffect(() => {
+    useEffectUpdate(() => {
       if (isHoverd) {
-        loadMovieTrailer(4000);
+        loadMovieTrailer(2000);
+      } else {
+        clearTimeout(trailerTimeoutId);
       }
     }, [isHoverd]);
 
-    async function loadMovieTrailer(time = 5000) {
-      setTimeout(async () => {
+    function loadMovieTrailer(time = 5000) {
+      const id = setTimeout(async () => {
         const fetchedMovieTrailer = await moviesService.getMovieTrailer(
           movie.name || movie.title
         );
+        isMovieTrailerPaused(true);
         setMovieTrailer(fetchedMovieTrailer);
         // setMovieTrailer("youtube/_cMxraX_5RE"); //for dev
       }, time);
+      setTrailerTimeoutId(id);
     }
 
     function formatGenre(genreId) {
@@ -97,19 +102,18 @@ const Card = memo(
     }
 
     function handleMouseEnter(movieName) {
-      isMovieTrailerPaused(true);
       const id = setTimeout(() => {
-        setIsFirstRun(false);
         setIsHoverd(movieName);
-      }, 370);
-      setTimeoutId(id);
+        setIsFirstRun(false);
+      }, 600);
+      setHoverTimeoutId(id);
     }
 
     function handleMouseOut(value) {
-      isMovieTrailerPaused(false);
-      setIsHoverd(false);
-      clearTimeout(timeoutId);
       setMovieTrailer(value);
+      clearTimeout(hoverTimeoutId);
+      isMovieTrailerPaused(false);
+      setTimeout(setIsHoverd, 200, false);
     }
 
     const handleToggleMute = () => {
@@ -123,20 +127,6 @@ const Card = memo(
     const isOnMyList = useMemo(() => {
       return myList?.some((m) => m.id === movie.id);
     }, [myList]);
-
-    // useMemo(() => {
-    //   const body = document.querySelector("body");
-
-    //   if (isHoverd) {
-    //     body.style.overflowX = "clip";
-    //   } else {
-    //     body.style.overflow = "auto";
-    //   }
-
-    //   return () => {
-    //     body.style.overflow = "auto";
-    //   };
-    // }, [isHoverd]);
 
     useEffectUpdate(() => {
       if (isHoverd && isMobileMode) {
@@ -163,7 +153,6 @@ const Card = memo(
         >
           <img
             src={`${baseUrl + movie.backdrop_path}`}
-            effect="blur"
             className={`poster ${mobileFilter ? "mobile" : ""}`}
           />
 
@@ -172,72 +161,77 @@ const Card = memo(
               isHoverd ? "show" : isFirstRun ? "" : "not-shown"
             }`}
           >
-            <div className="image-video-container">
-              <IoCloseOutline
-                className="close-btn"
-                onClick={() => handleMouseOut(null)}
-              />
-              {!movieTrailer && (
-                <LazyLoadImage
-                  src={`${baseUrl + movie.backdrop_path}`}
-                  alt=""
-                  effect="blur"
-                />
-              )}
-              {movieTrailer && (
-                <>
-                  <Player
-                    movieTrailer={movieTrailer}
-                    isMuted={isMuted}
-                    onEndedTrailer={onEndedTrailer}
+            {isHoverd && (
+              <>
+                <div className="image-video-container">
+                  <IoCloseOutline
+                    className="close-btn"
+                    onClick={() => handleMouseOut(null)}
                   />
-                  <div className="trailer-btns">
-                    <button
-                      className="video-btn toggle-mute"
-                      onClick={handleToggleMute}
-                    >
-                      {isMuted ? <MuteIcon /> : <VolumeHighIcon />}
-                    </button>
+                  {!movieTrailer && (
+                    <LazyLoadImage
+                      src={`${baseUrl + movie.backdrop_path}`}
+                      alt=""
+                      effect="blur"
+                    />
+                  )}
+
+                  {movieTrailer && (
+                    <>
+                      <Player
+                        movieTrailer={movieTrailer}
+                        isMuted={isMuted}
+                        onEndedTrailer={onEndedTrailer}
+                      />
+                      <div className="trailer-btns">
+                        <button
+                          className="video-btn toggle-mute"
+                          onClick={handleToggleMute}
+                        >
+                          {isMuted ? <MuteIcon /> : <VolumeHighIcon />}
+                        </button>
+                      </div>
+                    </>
+                  )}
+                </div>
+
+                <h1 className="title">{movie.title || movie.name}</h1>
+
+                <div className="hover-btns">
+                  <div className="left">
+                    <PlayCircleIcon className="play-btn" />
+                    {!isOnMyList ? (
+                      <AddIcon
+                        onClick={() => addMovieMyList(movie)}
+                        className="plus-btn"
+                      />
+                    ) : (
+                      <DoneIcon
+                        onClick={() => removeMovieMyList(movie.id)}
+                        className="v-btn"
+                      />
+                    )}
+                    {isLiked ? (
+                      <ThumbUpIcon
+                        onClick={() => setIsLiked(false)}
+                        className="unlike-btn"
+                      />
+                    ) : (
+                      <ThumbDownAltIcon
+                        onClick={() => setIsLiked(true)}
+                        className="like-btn"
+                      />
+                    )}
                   </div>
-                </>
-              )}
-            </div>
+                </div>
 
-            <h1 className="title">{movie.title || movie.name}</h1>
-
-            <div className="hover-btns">
-              <div className="left">
-                <PlayCircleIcon className="play-btn" />
-                {!isOnMyList ? (
-                  <AddIcon
-                    onClick={() => addMovieMyList(movie)}
-                    className="plus-btn"
-                  />
-                ) : (
-                  <DoneIcon
-                    onClick={() => removeMovieMyList(movie.id)}
-                    className="v-btn"
-                  />
-                )}
-                {isLiked ? (
-                  <ThumbUpIcon
-                    onClick={() => setIsLiked(false)}
-                    className="unlike-btn"
-                  />
-                ) : (
-                  <ThumbDownAltIcon
-                    onClick={() => setIsLiked(true)}
-                    className="like-btn"
-                  />
-                )}
-              </div>
-            </div>
-
-            <div className="genre-container">
-              {movie?.genre_ids.map((genreId, i) => (
-                <h4 key={genreId}>{formatGenre(genreId)}</h4>
-              ))}
-            </div>
+                <div className="genre-container">
+                  {movie?.genre_ids.slice(0, 3).map((genreId, i) => (
+                    <h4 key={genreId}>{formatGenre(genreId)}</h4>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
         </div>
       </>

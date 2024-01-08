@@ -1,5 +1,5 @@
 import { moviesService } from "../../services/moviesService";
-import { ADD_MOVIE, REMOVE_MOVIE, SET_MOVIES, SET_FILTER_BY, PAUSE_MOVIE_TRAILER } from "../reducers/movie.reducer";
+import { ADD_MOVIE, REMOVE_MOVIE, SET_MOVIES, SET_FILTER_BY, PAUSE_MOVIE_TRAILER, SET_MOVIES_BY_GENRE } from "../reducers/movie.reducer";
 import { store } from "../store";
 import { debounce } from "lodash";
 
@@ -10,6 +10,18 @@ export async function getMyListMovies() {
 
         const action = {
             type: SET_MOVIES,
+            movies
+        }
+        store.dispatch(action)
+    } catch (error) {
+        console.log('error:', error)
+    }
+}
+export async function loadMoviesByGenre() {
+    try {
+        const movies = await moviesService.getMoviesByGenre()
+        const action = {
+            type: SET_MOVIES_BY_GENRE,
             movies
         }
         store.dispatch(action)

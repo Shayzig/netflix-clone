@@ -1,8 +1,19 @@
 import React from "react";
 import Row from "./Row";
 import { useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 
-export default function MyList() {
+const withAuth = (Component) => (props) => {
+  const isUserSub = useSelector((state) => state.userModule.isUserSub);
+
+  if (!isUserSub && isUserSub !== null) {
+    return <Navigate to="/profile" />;
+  }
+
+  return <Component {...props} />;
+};
+
+const MyList = () => {
   const movies = useSelector((state) => state.movieModule.movies);
 
   return (
@@ -11,4 +22,8 @@ export default function MyList() {
       <Row filteredMovies={movies} />
     </div>
   );
-}
+};
+
+const MyListWithAuth = withAuth(MyList);
+
+export default MyListWithAuth;

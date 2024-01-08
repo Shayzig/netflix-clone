@@ -8,6 +8,7 @@ import Profile from "../pages/Profile";
 export default function MobileProfile() {
   const user = useSelector((state) => state.userModule.loggedinUser);
   const movies = useSelector((state) => state.movieModule.movies);
+  const isUserSub = useSelector((state) => state.userModule.isUserSub);
 
   const [isProfileDetails, setIsProfileDetails] = useState(false);
 
@@ -59,7 +60,7 @@ export default function MobileProfile() {
           </div>
         </div>
         <div className="mobile-row-container">
-          <Row filteredMovies={movies} title="My List" />
+          {isUserSub && <Row filteredMovies={movies} title="My List" />}
         </div>
       </div>
     </>

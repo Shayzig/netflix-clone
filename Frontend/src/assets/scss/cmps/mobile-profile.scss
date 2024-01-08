@@ -12,7 +12,7 @@
     bottom: 0;
     width: 100%;
     background-color: rgb(70, 68, 68);
-    height: 75vh;
+    height: 96vh;
     border-top-left-radius: rem(15px);
     border-top-right-radius: rem(15px);
     transition: 0.5s;
@@ -28,7 +28,8 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: rem(18px);
+        padding-inline: rem(18px);
+        padding-block: rem(12px);
     }
 }
 

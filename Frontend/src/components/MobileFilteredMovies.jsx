@@ -23,7 +23,7 @@ export default function MobileFilteredMovies() {
 
   async function loadMovies(filterBy) {
     try {
-      const movies = await moviesService.getMovies(filterBy);
+      const movies = await moviesService.getFilteredMovies(filterBy);
       setMovies(movies);
     } catch (error) {
       console.log(error);

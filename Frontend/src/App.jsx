@@ -1,66 +1,59 @@
 import "./assets/scss/global.scss";
 import "./assets/scss/basics/_typography.scss";
-import HomeScreen from "./pages/HomeScreen";
 import Register from "./pages/Register";
 import Profile from "./pages/Profile";
 import MyList from "./components/MyList";
 import Nav from "./components/Nav";
+import HomeScreenWithAuth from "./pages/HomeScreen";
 
 // Mobile only
 import MobileNav from "./components/MobileNav";
 import MobileFooter from "./components/MobileFooter";
 import MobileProfile from "./components/MobileProfile";
 import MobileFilteredMovies from "./components/MobileFilteredMovies";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 // Firebase
 import { db } from "./firebase";
 import { onAuthStateChanged, auth } from "./firebase.js";
 import { collection, getDocs } from "firebase/firestore";
 
-import { useEffect, useLayoutEffect } from "react";
-import { useEffectUpdate } from "./customHooks/useEffectUpdate";
+import { useEffect } from "react";
 import { useWindowSize } from "@uidotdev/usehooks";
 
 import { useSelector } from "react-redux";
-import { getMyListMovies } from "./store/actions/movie.action";
+import {
+  getMyListMovies,
+  loadMoviesByGenre,
+} from "./store/actions/movie.action";
 import {
   loginUser,
   logoutUser,
   setIsUserSub,
   setMobileMode,
 } from "./store/actions/user.actions";
-import HomeScreenWithAuth from "./pages/HomeScreen";
 
 function App() {
   const user = useSelector((state) => state.userModule.loggedinUser);
-
   const size = useWindowSize();
-
   const mobileMode = useSelector((state) => state.userModule.mobileMode);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const unsbscribe = onAuthStateChanged(auth, (userAuth) => {
       if (userAuth) {
         loginUser({
           uid: userAuth.uid,
           email: userAuth.email,
         });
-        checkUserSubs(userAuth.uid);
         getMyListMovies();
+        checkUserSubs(userAuth.uid);
       } else {
         logoutUser();
       }
-      return unsbscribe;
+
+      () => unsbscribe;
     });
-  }, []);
-  // auth.currentUser
+  }, [auth.currentUser?.uid]);
 
   useEffect(() => {
     if (size.width < 600) {
@@ -69,6 +62,10 @@ function App() {
       setMobileMode(false);
     }
   }, [size]);
+
+  useEffect(() => {
+    loadMoviesByGenre();
+  }, []);
 
   async function checkUserSubs(userUid) {
     try {
@@ -103,27 +100,27 @@ function App() {
   }
 
   return (
-    <div className="app">
-      <Router>
-        {!user ? (
+    <Router>
+      {!user ? (
+        <>
           <Register />
-        ) : (
-          <>
-            {mobileMode ? <MobileNav /> : <Nav />}
-            <Routes>
-              <Route path="/" element={<HomeScreenWithAuth />} />
-              <Route path="/my-list" element={<MyList />} />
-              <Route path="/profile" element={<Profile />} />
+        </>
+      ) : (
+        <>
+          {mobileMode ? <MobileNav /> : <Nav />}
+          <Routes>
+            <Route path="/" element={<HomeScreenWithAuth />} />
+            <Route path="/my-list" element={<MyList />} />
+            <Route path="/profile" element={<Profile />} />
 
-              {/* Mobile Routes*/}
-              <Route path="/my-search" element={<MobileFilteredMovies />} />
-              <Route path="/mobile-profile" element={<MobileProfile />} />
-            </Routes>
-            {mobileMode && <MobileFooter />}
-          </>
-        )}
-      </Router>
-    </div>
+            {/* Mobile Routes*/}
+            <Route path="/my-search" element={<MobileFilteredMovies />} />
+            <Route path="/mobile-profile" element={<MobileProfile />} />
+          </Routes>
+          {mobileMode && <MobileFooter />}
+        </>
+      )}
+    </Router>
   );
 }
 

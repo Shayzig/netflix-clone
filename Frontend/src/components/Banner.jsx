@@ -15,13 +15,12 @@ import { ReplayIcon } from "@vidstack/react/icons";
 import { useSelector } from "react-redux";
 import { IoCheckmark } from "react-icons/io5";
 
-export default function Banner() {
+export default function Banner({ moviesByGenre }) {
   const [movie, setMovie] = useState(null);
   const [movieTrailer, setMovieTrailer] = useState(null);
   const [isEndTrailer, setIsEndTrailer] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [isDescription, setIsDescription] = useState(true);
-  const [randomNum, setRandomNum] = useState(null);
 
   const mobileMode = useSelector((state) => state.userModule.mobileMode);
   const myList = useSelector((state) => state.movieModule.movies);
@@ -32,8 +31,7 @@ export default function Banner() {
 
   useEffectUpdate(() => {
     if (!mobileMode) {
-      console.log("loaded trailer desktop");
-      // loadTrailerMovie();
+      loadTrailerMovie();
     } else {
       getAverageColor();
     }
@@ -66,39 +64,14 @@ export default function Banner() {
 
   async function loadBannerMovie() {
     try {
-      const demoMovies = [
-        {
-          adult: false,
-          backdrop_path: "/bmlkLCjrIWnnZzdAQ4uNPG9JFdj.jpg",
-          genre_ids: [35, 10751, 14],
-          id: 787699,
-          original_title: "Wonka",
-          overview:
-            "Willy Wonka – chock-full of ideas and determined to change the world one delectable bite at a time – is proof that the best things in life begin with a dream, and if you’re lucky enough to meet Willy Wonka, anything is possible.",
-          title: "Wonka",
-        },
-        {
-          adult: true,
-          backdrop_path: "/bmlkLCjrIWnnZzdAQ4uNPG9JFdj.jpg",
-          genre_ids: [35, 10751, 14],
-          id: 787699,
-          original_title: "Wonka",
-          overview:
-            "Willy Wonka – chock-full of ideas and determined to change the world one delectable bite at a time – is proof that the best things in life begin with a dream, and if you’re lucky enough to meet Willy Wonka, anything is possible.",
-          title: "Donka",
-        },
-      ];
-      const movies = await moviesService.getMoviesByGenre("fetchTopRated");
-      let randomNum = Math.floor(Math.random() * movies.length);
-      // const selectedMovie = movies[6]; // for dev
-      const selectedMovie = movies[randomNum];
+      let randomNum = Math.floor(
+        Math.random() * moviesByGenre["Top Rated"].length
+      );
+      const selectedMovie = moviesByGenre["Top Rated"][randomNum];
       setMovie(selectedMovie);
-      // setMovie(demoMovies[randomNum]);
     } catch (error) {
       console.error("Error loading banner movie:", error);
     }
-    // };
-    // };
   }
 
   async function loadTrailerMovie(time = 6000) {

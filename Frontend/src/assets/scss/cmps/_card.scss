@@ -58,18 +58,19 @@
         position: fixed;
         bottom: 0;
         left: 0;
-        height: 67vh;
+        height: 0vh;
         width: 100%;
-        transform: translateY(100%);
+        // scale: 0;
         z-index: 998;
         border-radius: rem(6px);
         box-shadow: rgba(0, 0, 0, 0.818) 0px 3px 10px;
         background-color: #3c3c3cce;
         backdrop-filter: blur(30px);
-        transition: 0.4s ease-in-out;
+        transition: 0.4s;
 
         &.show {
-            transform: translateY(0);
+            height: 67vh;
+            // scale: 1;
         }
 
         .image-video-container {
@@ -165,13 +166,11 @@
         position: relative;
         .poster {
             width: 17.5vw;
-            height: rem(250px);
+            height: rem(210px);
         }
 
         .hover {
-            transform: translateY(0);
             transition: none;
-
             position: absolute;
             top: -11%;
             left: -7.1%;
@@ -182,6 +181,7 @@
             scale: 0;
 
             &.show {
+                height: max-content;
                 animation: scaleIn 0.5s forwards;
             }
             &.not-shown {
@@ -195,6 +195,7 @@
 
                 img {
                     width: 100%;
+                    height: rem(235px);
                     border-top-left-radius: rem(3px);
                     border-top-right-radius: rem(3px);
                 }

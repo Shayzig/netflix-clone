@@ -3,8 +3,10 @@ export const REMOVE_MOVIE = 'REMOVE_MOVIE'
 export const SET_MOVIES = 'SET_MOVIES'
 export const SET_FILTER_BY = 'SET_FILTER_BY'
 export const PAUSE_MOVIE_TRAILER = 'PAUSE_MOVIE_TRAILER'
+export const SET_MOVIES_BY_GENRE = 'SET_MOVIES_BY_GENRE'
 const initialState = {
     movies: [],
+    moviesByGenre: null,
     filterby: { movie: '' },
     isMovieTrailerPlay: false
 }
@@ -16,6 +18,11 @@ export function movieReducer(state = initialState, action = {}) {
             return {
                 ...state,
                 movies: action.movies
+            }
+        case SET_MOVIES_BY_GENRE:
+            return {
+                ...state,
+                moviesByGenre: action.movies
             }
 
         case ADD_MOVIE:
