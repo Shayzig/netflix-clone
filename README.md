@@ -51,7 +51,7 @@ Seamlessly subscribe to premium content using the secure and streamlined subscri
 Head to the repository on top and clone the project or download the files.
 
 ```
-git clone https://github.com/Shayzig/netflix-clone-frontend
+git clone https://github.com/Shayzig/netflix-clone
 git clone https://github.com/Shayzig/netflix-clone-backend
 ```
 
