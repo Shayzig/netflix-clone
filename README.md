@@ -1,7 +1,7 @@
 # Netflix Clone - React, Node.js, MongoDB, Firebase
 Experience the magic of Netflix with our Netflix Clone project! Crafted with precision and powered by cutting-edge technologies, this project brings the world of movies and TV shows to your fingertips. Perfect for movie enthusiasts, our Netflix Clone offers a seamless blend of user-friendly design and robust features.
 
-Try it here: https://trio-j5ev.onrender.com
+**Try it here**: https://netflix-clone-qf40.onrender.com
 
 ## Features
 - **User Authentication:** Securely sign up, log in, and enjoy a personalized experience tailored to your preferences.
@@ -25,13 +25,11 @@ Try it here: https://trio-j5ev.onrender.com
 ## Technologies
 Our Netflix Clone utilizes the following technologies:
 
-Frontend: React
-Backend: Node.js, Express
-Database: MongoDB 
-Authentication: Firebase
-Payment Processing: Stripe
-Discover a user-friendly homepage with an enticing layout that invites you to explore the vast collection.
-
+- **Frontend:** React
+- **Backend:** Node.js, Express
+- **Database:** MongoDB 
+- **Authentication:** Firebase
+- **Payment Processing:** Stripe
 
 ## Movie Details
 Dive into the details of each movie with a sleek and intuitive interface, showcasing information and options.
@@ -76,43 +74,58 @@ That's it! The App should be opened automatically, enjoy!
 
 ### Login
 The landing page in which the user can sign up / login, or press the call to action button to quick start if the are limited with time.
-<img width="1440" alt="Login" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/5372c0d1-29e2-478d-b00a-c6f24233316d">
-<img width="1440" alt="Login" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/a46f4559-0935-4543-a460-0b4cdba111f9">
+
+<img width="1024" alt="Login" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/5372c0d1-29e2-478d-b00a-c6f24233316d">
+<img width="1024" alt="Login" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/ebaf9938-de36-4eae-820a-5b87a40a07e1">
 
 ### Homepage
 Explore the vast collection of movies and TV shows, highlighted with special banners and enticing visuals.
-<img width="1440" alt="Homepage" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/fa4974bd-7ea3-4e9c-94ad-0bc1df9d15d1">
+
+<img width="1024" alt="Homepage" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/fa4974bd-7ea3-4e9c-94ad-0bc1df9d15d1">
 
 ### Sliders
+
 Travel through the world of movies by genre with our sliders, providing a dynamic and engaging experience.
-<img width="1440" alt="Sliders" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/fb713d8f-4b40-465b-b8b0-7ba007447382">
+
+<img width="1024" alt="Sliders" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/fb713d8f-4b40-465b-b8b0-7ba007447382">
 
 ### Profile
 Manage your account and subscription details conveniently from your profile page.
-<img width="1440" alt="Profile" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/784a4a78-db1c-4597-b7e8-9b755bce8516">
+
+<img width="1024" alt="Profile" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/ed47be04-d225-44a2-b651-ecc2b54e19f7">
 
 ### Favorite Movies
 Access and manage your favorite movie list effortlessly with our intuitive interface.
-<img width="1440" alt="Favorite movies" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/359ffeea-cf0f-461f-b832-b372750f45a2">
+
+<img width="1024" alt="Favorite movies" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/359ffeea-cf0f-461f-b832-b372750f45a2">
 
 ## Showcase - Mobile
 
 ### Homepage
-<img width="350" alt="Homepage" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/cd3e724d-aeed-4b34-b76a-65b525b8d993">
+
+<img width="200" alt="Homepage" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/cd3e724d-aeed-4b34-b76a-65b525b8d993">
 
 ### Search
-<img width="350" alt="Search" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/95214858-114b-4e4e-ade5-3bb4da893788">
+
+<img width="200" alt="Search" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/95214858-114b-4e4e-ade5-3bb4da893788">
 
 ### Profile
-<img width="350" alt="Profile" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/62a8741a-8f74-4ee2-a373-fa336d832ef9">
+
+<img width="200" alt="Profile" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/62a8741a-8f74-4ee2-a373-fa336d832ef9">
+
+### Movie Details
+
+<img width="200" alt="Movie Details" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/39961405-7497-4de1-833a-2cafeb639de7">
 
 ### My Netflix
 Experience the personalized touch of "My Netflix" on your mobile device, where you can access your account and subscription details seamlessly.
-<img width="350" alt="Homepage" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/72da1131-f23d-4b41-a2cb-a78a25b756e4">
+
+<img width="200" alt="Homepage" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/72da1131-f23d-4b41-a2cb-a78a25b756e4">
 
 <br>
 
 Authors:
--Shay zigdon
+
+- Shay zigdon
 
 Experience the future of online streaming with our Netflix Clone. Dive into a world of entertainment like never before!
