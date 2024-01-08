@@ -1,4 +1,4 @@
-![mobile-my netflix](https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/0c2985b2-e963-4429-bb07-4a33fa124d53)# Netflix Clone - React, Node.js, MongoDB, Firebase
+# Netflix Clone - React, Node.js, MongoDB, Firebase
 Experience the magic of Netflix with our Netflix Clone project! Crafted with precision and powered by cutting-edge technologies, this project brings the world of movies and TV shows to your fingertips. Perfect for movie enthusiasts, our Netflix Clone offers a seamless blend of user-friendly design and robust features.
 
 Try it here: https://trio-j5ev.onrender.com
@@ -98,17 +98,17 @@ Access and manage your favorite movie list effortlessly with our intuitive inter
 ## Showcase - Mobile
 
 ### Homepage
-<img width="1440" alt="Homepage" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/cd3e724d-aeed-4b34-b76a-65b525b8d993">
+<img width="350" alt="Homepage" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/cd3e724d-aeed-4b34-b76a-65b525b8d993">
 
 ### Search
-<img width="1440" alt="Search" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/95214858-114b-4e4e-ade5-3bb4da893788">
+<img width="350" alt="Search" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/95214858-114b-4e4e-ade5-3bb4da893788">
 
 ### Profile
-<img width="1440" alt="Profile" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/62a8741a-8f74-4ee2-a373-fa336d832ef9">
+<img width="350" alt="Profile" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/62a8741a-8f74-4ee2-a373-fa336d832ef9">
 
 ### My Netflix
 Experience the personalized touch of "My Netflix" on your mobile device, where you can access your account and subscription details seamlessly.
-<img width="1440" alt="Homepage" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/72da1131-f23d-4b41-a2cb-a78a25b756e4">
+<img width="350" alt="Homepage" src="https://github.com/Shayzig/netflix-clone-frontend/assets/121104922/72da1131-f23d-4b41-a2cb-a78a25b756e4">
 
 <br>
 
