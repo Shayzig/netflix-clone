@@ -4,23 +4,23 @@ Experience the magic of Netflix with our Netflix Clone project! Crafted with pre
 Try it here: https://trio-j5ev.onrender.com
 
 ## Features
-User Authentication: Securely sign up, log in, and enjoy a personalized experience tailored to your preferences.
+- **User Authentication:** Securely sign up, log in, and enjoy a personalized experience tailored to your preferences.
 
-Browse Movies and TV Shows: Explore an extensive collection of movies and TV shows categorized for easy navigation.
+- **Browse Movies and TV Shows:** Explore an extensive collection of movies and TV shows categorized for easy navigation.
 
-Search Functionality: Quickly find your favorite movies with our efficient search feature.
+- **Search Functionality:** Quickly find your favorite movies with our efficient search feature.
 
-Favorite List Management: Build and manage your favorite movie list effortlessly. Add and remove movies at your convenience.
+- **Favorite List Management:** Build and manage your favorite movie list effortlessly. Add and remove movies at your convenience.
 
-Pixel-Perfect UI: Immerse yourself in a Netflix-like experience with a pixel-perfect user interface on both desktop and mobile.
+- **Pixel-Perfect UI:** Immerse yourself in a Netflix-like experience with a pixel-perfect user interface on both desktop and mobile.
 
-Fully Responsive: Whether you're using it on a large desktop screen or a mobile device, our Netflix Clone provides a seamless and responsive user experience.
+- **Fully Responsive:** Whether you're using it on a large desktop screen or a mobile device, our Netflix Clone provides a seamless and responsive user experience.
 
-Custom-Made Player: Enjoy a unique video playback experience with our custom-made player powered by the VidStack library.
+- **Custom-Made Player:** Enjoy a unique video playback experience with our custom-made player powered by the VidStack library.
 
-Movie Trailers: Get a sneak peek of the movies with trailers fetched from YouTube using a combination of different APIs.
+- **Movie Trailers:** Get a sneak peek of the movies with trailers fetched from YouTube using a combination of different APIs.
 
-Subscription Process: Experience a smooth subscription process powered by Stripe, integrated seamlessly with Firebase authentication.
+- **Subscription Process:** Experience a smooth subscription process powered by Stripe, integrated seamlessly with Firebase authentication.
 
 ## Technologies
 Our Netflix Clone utilizes the following technologies:
