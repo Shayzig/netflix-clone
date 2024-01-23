@@ -5,6 +5,7 @@ import { useEffectUpdate } from "../customHooks/useEffectUpdate";
 import Banner from "../components/Banner";
 import { moviesService } from "../services/moviesService";
 import Row from "../components/Row";
+import RenderIfVisible from "react-render-if-visible";
 
 const withAuth = (Component) => (props) => {
   const isUserSub = useSelector((state) => state.userModule.isUserSub);
@@ -47,7 +48,9 @@ const HomeScreen = () => {
           <Row title="Your search" filteredMovies={movies} />
         ) : (
           Object.entries(moviesByGenre)?.map(([key, value]) => (
-            <Row key={key} title={key} data={value} />
+            <RenderIfVisible key={key} defaultHeight={400} visibleOffset={50}>
+              <Row key={key} title={key} data={value} />
+            </RenderIfVisible>
           ))
         )}
       </div>
@@ -58,3 +61,4 @@ const HomeScreen = () => {
 const HomeScreenWithAuth = withAuth(HomeScreen);
 
 export default HomeScreenWithAuth;
+

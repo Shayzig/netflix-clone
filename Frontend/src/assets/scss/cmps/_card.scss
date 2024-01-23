@@ -60,7 +60,6 @@
         left: 0;
         height: 0vh;
         width: 100%;
-        // scale: 0;
         z-index: 998;
         border-radius: rem(6px);
         box-shadow: rgba(0, 0, 0, 0.818) 0px 3px 10px;
@@ -70,7 +69,6 @@
 
         &.show {
             height: 67vh;
-            // scale: 1;
         }
 
         .image-video-container {
@@ -113,8 +111,7 @@
                     border: none;
                     background-color: rgba(0, 0, 0, 0.462);
                     color: white;
-                    height: rem(25px);
-                    width: rem(25px);
+                    padding: 5px 8px;
                     box-shadow: 0 0 4px rgba(0, 0, 0, 0.247);
                     transition: all 0.2s;
 
@@ -143,20 +140,37 @@
                 padding-inline-start: rem(20px);
 
                 & > * {
-                    height: 25px;
-                    width: 25px;
+                    // height: 25px;
+                    // width: 25px;
                     border-radius: 50%;
                     color: #ffffff;
                 }
 
                 .play-btn {
-                    display: none;
+                    padding-block: 4px;
+                    padding-inline-start: 2.5px;
+                    background-color: white;
+                    color: rgb(75, 75, 75);
+                }
+                .pause-btn {
+                    padding-block: 4px;
+                    background-color: white;
+                    color: rgb(75, 75, 75);
                 }
             }
         }
 
         .genre-container {
-            display: none;
+            margin-block-start: 10px;
+            display: flex;
+            justify-content: start;
+            align-items: center;
+            gap: rem(28px);
+            padding: rem(20px);
+            color: white;
+            font-weight: 600;
+            font-size: 100%;
+            font-family: netflix;
         }
     }
 }
@@ -259,30 +273,22 @@
                     }
 
                     .play-btn {
-                        display: block;
-                        border: none;
-                        height: 44px;
-                        width: 44px;
-                        padding: 0;
-                        margin-inline-end: rem(-4px);
+                        padding-inline-start: 10px;
                         &:hover {
-                            color: #bababa78;
+                            background-color: #bababa78;
+                        }
+                    }
+                    .pause-btn {
+                        &:hover {
+                            color: rgb(255, 255, 255);
+                            background-color: #bababa78;
                         }
                     }
                 }
             }
 
             .genre-container {
-                display: flex;
-                justify-content: start;
-                align-items: center;
-                gap: rem(8px);
-                padding: rem(20px);
-                color: white;
-                font-weight: 600;
-                font-size: 100%;
-                font-family: netflix;
-
+                margin-block-start: 0;
                 .dot {
                     height: 4px;
                     width: 4px;

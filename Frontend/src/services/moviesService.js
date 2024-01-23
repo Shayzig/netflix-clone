@@ -20,16 +20,16 @@ cache = cache ? JSON.parse(cache) : {}
 const API_KEY = '1ded769ef93b775933fada2149c582f3'
 const baseURL = 'https://api.themoviedb.org/3'
 
-
+// TODO: Load default img if the img api dosent work
 export const requests = [
-    { title: 'Tranding Now', fetchUrl: `/trending/all/week?api_key=${API_KEY}&language=en-U` },
-    { title: 'NETFLIX ORIGINALS', fetchUrl: `/discover/tv?api_key=${API_KEY}&woth_networks=213` },
     { title: 'Top Rated', fetchUrl: `/movie/top_rated?api_key=${API_KEY}&language=en-US` },
+    { title: 'Tranding Now', fetchUrl: `/trending/all/week?api_key=${API_KEY}&language=en-U` },
     { title: 'Action Movies', fetchUrl: `/discover/movie?api_key=${API_KEY}&with_genres=28` },
     { title: 'Comedy Movies', fetchUrl: `/discover/movie?api_key=${API_KEY}&with_genres=35` },
     { title: 'Horror Movies', fetchUrl: `/discover/movie?api_key=${API_KEY}&with_genres=27` },
     { title: 'Romance Movies', fetchUrl: `/discover/movie?api_key=${API_KEY}&with_genres=10749` },
-    { title: 'Documentaries Movies', fetchUrl: `/discover/movie?api_key=${API_KEY}&with_genres=99` },
+    // { title: 'Documentaries Movies', fetchUrl: `/discover/movie?api_key=${API_KEY}&with_genres=99` },
+    // { title: 'NETFLIX ORIGINALS', fetchUrl: `/discover/tv?api_key=${API_KEY}&woth_networks=213` },
 ]
 
 export async function getMoviesByGenre() {

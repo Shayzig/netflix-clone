@@ -31,7 +31,7 @@ export default function Banner({ moviesByGenre }) {
 
   useEffectUpdate(() => {
     if (!mobileMode) {
-      loadTrailerMovie();
+      // loadTrailerMovie();
     } else {
       getAverageColor();
     }
@@ -169,7 +169,7 @@ export default function Banner({ moviesByGenre }) {
             <div className="movie-btns">
               <button className="banner-btn">
                 <PlayIcon size={100} />
-                <span onClick={() => pauseMovieTrailer()}>Play</span>
+                <span>Play</span>
               </button>
 
               {!mobileMode ? (

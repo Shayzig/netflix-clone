@@ -17,7 +17,7 @@ const Row = memo(
     const [isControls, setIsControls] = useState(false);
     const isMobileMode = useSelector((state) => state.userModule.mobileMode);
     const myList = useSelector((state) => state.movieModule.movies);
-
+   
     const handleDirection = (direction) => {
       const scrollStep = 91.7;
 

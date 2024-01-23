@@ -13,9 +13,11 @@ import { IoCloseOutline } from "react-icons/io5";
 import { MuteIcon, VolumeHighIcon } from "@vidstack/react/icons";
 import AddIcon from "@mui/icons-material/Add";
 import DoneIcon from "@mui/icons-material/Done";
-import PlayCircleIcon from "@mui/icons-material/PlayCircle";
+import { IoMdPlay } from "react-icons/io";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownAltIcon from "@mui/icons-material/ThumbDownAlt";
+import { IoPauseSharp } from "react-icons/io5";
+
 import { isMovieTrailerPaused } from "../store/actions/movie.action";
 import { useEffectUpdate } from "../customHooks/useEffectUpdate";
 
@@ -29,6 +31,7 @@ const Card = memo(
     const [isHoverd, setIsHoverd] = useState(false);
     const [isFirstRun, setIsFirstRun] = useState(true);
     const [isLiked, setIsLiked] = useState(Math.random() > 0.5 ? true : false);
+    const [isHoverTrailerPaused, setisHoverTrailerPaused] = useState(true);
 
     const [movieTrailer, setMovieTrailer] = useState(null);
     const [isMuted, setIsMuted] = useState(true);
@@ -182,13 +185,18 @@ const Card = memo(
                         movieTrailer={movieTrailer}
                         isMuted={isMuted}
                         onEndedTrailer={onEndedTrailer}
+                        isHoverTrailerPaused={isHoverTrailerPaused}
                       />
                       <div className="trailer-btns">
                         <button
                           className="video-btn toggle-mute"
                           onClick={handleToggleMute}
                         >
-                          {isMuted ? <MuteIcon /> : <VolumeHighIcon />}
+                          {isMuted ? (
+                            <MuteIcon size={20} />
+                          ) : (
+                            <VolumeHighIcon size={20} />
+                          )}
                         </button>
                       </div>
                     </>
@@ -199,7 +207,20 @@ const Card = memo(
 
                 <div className="hover-btns">
                   <div className="left">
-                    <PlayCircleIcon className="play-btn" />
+                    {isHoverTrailerPaused ? (
+                      <IoMdPlay
+                        size={30}
+                        className="play-btn"
+                        onClick={() => setisHoverTrailerPaused(false)}
+                      />
+                    ) : (
+                      <IoPauseSharp
+                        size={30}
+                        className="pause-btn"
+                        onClick={() => setisHoverTrailerPaused(true)}
+                      />
+                    )}
+
                     {!isOnMyList ? (
                       <AddIcon
                         onClick={() => addMovieMyList(movie)}
