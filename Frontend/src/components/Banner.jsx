@@ -31,7 +31,7 @@ export default function Banner({ moviesByGenre }) {
 
   useEffectUpdate(() => {
     if (!mobileMode) {
-      // loadTrailerMovie();
+      loadTrailerMovie();
     } else {
       getAverageColor();
     }
